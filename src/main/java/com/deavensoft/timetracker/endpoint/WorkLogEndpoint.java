@@ -30,8 +30,8 @@ public class WorkLogEndpoint {
     }
 
     @PutMapping({"/{id}"})
-    public void updateWorkLog(@PathVariable Long id, @RequestBody WorkLogDto workLogDto) {
-        workLogService.updateWorkLog(id, workLogDto);
+    public WorkLogDto updateWorkLog(@PathVariable Long id, @RequestBody WorkLogDto workLogDto) {
+        return workLogService.updateWorkLog(id, workLogDto);
     }
 
     @DeleteMapping("/{id}")
