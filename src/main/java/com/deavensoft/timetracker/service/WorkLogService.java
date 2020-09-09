@@ -1,18 +1,18 @@
 package com.deavensoft.timetracker.service;
 
-import com.deavensoft.timetracker.model.WorkLog;
+import com.deavensoft.timetracker.api.model.WorkLogDto;
 
-import java.util.Optional;
+import java.util.List;
 
 public interface WorkLogService {
 
-    Optional<WorkLog> getWorkLogById(Long id);
+    WorkLogDto getWorkLogById(Long id);
 
-    Iterable<WorkLog> getAllWorkLogs();
+    List<WorkLogDto> getAllWorkLogs();
 
-    WorkLog createWorkLog(WorkLog workLog);
+    WorkLogDto createWorkLog(WorkLogDto workLog);
 
-    void updateWorkLog(WorkLog workLog);
+    WorkLogDto updateWorkLog(Long id, WorkLogDto workLog);
 
     void deleteWorkLog(Long id);
 }
