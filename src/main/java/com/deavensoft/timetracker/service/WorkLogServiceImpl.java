@@ -1,46 +1,61 @@
 package com.deavensoft.timetracker.service;
 
-import com.deavensoft.timetracker.model.WorkLog;
-
+import com.deavensoft.timetracker.api.mapper.WorkLogMapper;
+import com.deavensoft.timetracker.api.model.WorkLogDto;
+import com.deavensoft.timetracker.domain.WorkLog;
 import com.deavensoft.timetracker.repository.WorkLogRepository;
-import lombok.RequiredArgsConstructor;
 
-import java.util.Optional;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
-@RequiredArgsConstructor
+
 public class WorkLogServiceImpl implements WorkLogService {
 
     private final WorkLogRepository workLogRepository;
+    private final WorkLogMapper mapper;
 
-    @Override
-    public Optional<WorkLog> getWorkLogById(Long id) {
-        return workLogRepository.findById(id);
+    public WorkLogServiceImpl(WorkLogRepository workLogRepository, WorkLogMapper mapper) {
+        this.workLogRepository = workLogRepository;
+        this.mapper = mapper;
     }
 
     @Override
-    public Iterable<WorkLog> getAllWorkLogs() {
-        return workLogRepository.findAll();
+    public WorkLogDto getWorkLogById(Long id) {
+        return workLogRepository
+                .findById(id)
+                .map(mapper::workLogToWorkLogDto)
+                .orElseThrow(RuntimeException::new);
     }
 
     @Override
-    public WorkLog createWorkLog(WorkLog workLog) {
-        if (workLog.getDate() == null) {
-            throw new IllegalArgumentException();
-        }
+    public List<WorkLogDto> getAllWorkLogs() {
+        Iterable<WorkLog> iterableWorkLogs = workLogRepository.findAll();
 
-        workLogRepository.save(workLog);
-        return workLog;
+        return StreamSupport
+                .stream(iterableWorkLogs.spliterator(), false)
+                .map(mapper::workLogToWorkLogDto)
+                .collect(Collectors.toList());
+
     }
 
     @Override
-    public void updateWorkLog(WorkLog workLog) {
-        if (workLogRepository.findById(workLog.getId()).isPresent())
-            workLogRepository.save(workLog);
+    public WorkLogDto createWorkLog(WorkLogDto workLogDto) {
+        return mapper.workLogToWorkLogDto(workLogRepository.save(mapper.workLogDtoToWorkLog(workLogDto)));
+    }
+
+    @Override
+    public WorkLogDto updateWorkLog(Long id, WorkLogDto workLogDto) {
+        WorkLog workLog = mapper.workLogDtoToWorkLog(workLogDto);
+        workLog.setId(id);
+
+        WorkLog savedWorkLog = workLogRepository.save(workLog);
+
+        return mapper.workLogToWorkLogDto(savedWorkLog);
     }
 
     @Override
     public void deleteWorkLog(Long id) {
-        if (workLogRepository.findById(id).isPresent())
-            workLogRepository.deleteById(id);
+        workLogRepository.deleteById(id);
     }
 }

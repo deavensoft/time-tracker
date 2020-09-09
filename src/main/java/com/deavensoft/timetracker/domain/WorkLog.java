@@ -1,4 +1,4 @@
-package com.deavensoft.timetracker.model;
+package com.deavensoft.timetracker.domain;
 
 import lombok.Data;
 
@@ -13,7 +13,7 @@ import java.time.LocalDate;
 public class WorkLog {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue (strategy = GenerationType.AUTO)
     private Long id;
     private LocalDate date;
     private Double hours;

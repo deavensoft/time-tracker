@@ -1,41 +1,41 @@
 package com.deavensoft.timetracker.endpoint;
 
-import com.deavensoft.timetracker.model.WorkLog;
+import com.deavensoft.timetracker.api.model.WorkLogDto;
+import com.deavensoft.timetracker.api.model.WorkLogListDto;
 import com.deavensoft.timetracker.service.WorkLogService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
-
-@RequestMapping("/v1.0/worklogs")
+@RequestMapping(WorkLogEndpoint.BASE_URL)
 @RequiredArgsConstructor
 @RestController
 public class WorkLogEndpoint {
 
+    public static final String BASE_URL = "/v1.0/worklogs";
     private final WorkLogService workLogService;
 
     @GetMapping("/{id}")
-    public Optional<WorkLog> getWorkLog(@PathVariable(value = "id") Long id) {
+    public WorkLogDto getWorkLog(@PathVariable(value = "id") Long id) {
         return workLogService.getWorkLogById(id);
     }
 
     @GetMapping
-    public Iterable<WorkLog> getWorkLogs() {
-        return workLogService.getAllWorkLogs();
+    public WorkLogListDto getWorkLogs() {
+        return new WorkLogListDto(workLogService.getAllWorkLogs());
     }
 
     @PostMapping
-    public WorkLog createWorkLog(@RequestBody WorkLog workLog) {
-        return workLogService.createWorkLog(workLog);
+    public WorkLogDto createWorkLog(@RequestBody WorkLogDto workLogDto) {
+        return workLogService.createWorkLog(workLogDto);
     }
 
-    @PutMapping
-    public void updateWorkLog(@RequestBody WorkLog workLog) {
-        workLogService.updateWorkLog(workLog);
+    @PutMapping({"/{id}"})
+    public void updateWorkLog(@PathVariable Long id, @RequestBody WorkLogDto workLogDto) {
+        workLogService.updateWorkLog(id, workLogDto);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteWorkLog(@PathVariable(value = "id") Long id) {
+    public void deleteWorkLog(@PathVariable Long id) {
         workLogService.deleteWorkLog(id);
     }
 }
