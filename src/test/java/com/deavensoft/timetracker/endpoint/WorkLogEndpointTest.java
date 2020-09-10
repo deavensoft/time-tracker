@@ -5,6 +5,8 @@ import com.deavensoft.timetracker.api.model.WorkLogDto;
 import com.deavensoft.timetracker.domain.WorkLog;
 import com.deavensoft.timetracker.service.WorkLogService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -21,8 +23,12 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -42,6 +48,9 @@ class WorkLogEndpointTest {
     private WorkLogDto workLogDto;
     private WorkLog returnedWorkLog;
 
+    private final ObjectMapper objectMapper = new ObjectMapper()
+            .registerModule(new JavaTimeModule())
+            .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
 
     @BeforeEach
     void setUp() {
@@ -107,7 +116,7 @@ class WorkLogEndpointTest {
 
         mockMvc.perform(post(BASE_URL)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(new ObjectMapper().writeValueAsString(workLogDto)))
+                .content(objectMapper.writeValueAsString(workLogDto)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(workLogDto.getId()))
                 .andExpect(jsonPath("$.hours", equalTo(workLogDto.getHours())))
@@ -122,7 +131,7 @@ class WorkLogEndpointTest {
 
         mockMvc.perform(put(BASE_URL + "/" + returnedWorkLog.getId())
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(new ObjectMapper().writeValueAsString(workLogDto)))
+                .content(objectMapper.writeValueAsString(workLogDto)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(workLogDto.getId()))
                 .andExpect(jsonPath("$.hours", equalTo(workLogDto.getHours())))
