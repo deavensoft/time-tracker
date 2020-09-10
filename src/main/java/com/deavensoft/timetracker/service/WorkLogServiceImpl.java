@@ -1,57 +1,40 @@
 package com.deavensoft.timetracker.service;
 
-import com.deavensoft.timetracker.api.mapper.WorkLogMapper;
-import com.deavensoft.timetracker.api.model.WorkLogDto;
 import com.deavensoft.timetracker.domain.WorkLog;
 import com.deavensoft.timetracker.repository.WorkLogRepository;
+import lombok.AllArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
-
+@AllArgsConstructor
 public class WorkLogServiceImpl implements WorkLogService {
 
     private final WorkLogRepository workLogRepository;
-    private final WorkLogMapper mapper;
 
-    public WorkLogServiceImpl(WorkLogRepository workLogRepository, WorkLogMapper mapper) {
-        this.workLogRepository = workLogRepository;
-        this.mapper = mapper;
+    @Override
+    public WorkLog getWorkLogById(Long id) {
+        return workLogRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Work log with ID = " + id + " does not exist!"));
     }
 
     @Override
-    public WorkLogDto getWorkLogById(Long id) {
-        return workLogRepository
-                .findById(id)
-                .map(mapper::workLogToWorkLogDto)
-                .orElseThrow(RuntimeException::new);
+    public List<WorkLog> getAllWorkLogs() {
+        List<WorkLog> workLogs = new ArrayList<>();
+        workLogRepository.findAll().forEach(workLogs::add);
+
+        return workLogs;
     }
 
     @Override
-    public List<WorkLogDto> getAllWorkLogs() {
-        Iterable<WorkLog> iterableWorkLogs = workLogRepository.findAll();
-
-        return StreamSupport
-                .stream(iterableWorkLogs.spliterator(), false)
-                .map(mapper::workLogToWorkLogDto)
-                .collect(Collectors.toList());
-
+    public WorkLog createWorkLog(WorkLog workLog) {
+        return workLogRepository.save(workLog);
     }
 
     @Override
-    public WorkLogDto createWorkLog(WorkLogDto workLogDto) {
-        return mapper.workLogToWorkLogDto(workLogRepository.save(mapper.workLogDtoToWorkLog(workLogDto)));
-    }
-
-    @Override
-    public WorkLogDto updateWorkLog(Long id, WorkLogDto workLogDto) {
-        WorkLog workLog = mapper.workLogDtoToWorkLog(workLogDto);
+    public WorkLog updateWorkLog(Long id, WorkLog workLog) {
         workLog.setId(id);
 
-        WorkLog savedWorkLog = workLogRepository.save(workLog);
-
-        return mapper.workLogToWorkLogDto(savedWorkLog);
+        return workLogRepository.save(workLog);
     }
 
     @Override

@@ -1,10 +1,14 @@
 package com.deavensoft.timetracker.endpoint;
 
+import com.deavensoft.timetracker.api.mapper.WorkLogMapper;
 import com.deavensoft.timetracker.api.model.WorkLogDto;
-import com.deavensoft.timetracker.api.model.WorkLogListDto;
+import com.deavensoft.timetracker.domain.WorkLog;
 import com.deavensoft.timetracker.service.WorkLogService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RequestMapping(WorkLogEndpoint.BASE_URL)
 @RequiredArgsConstructor
@@ -13,25 +17,32 @@ public class WorkLogEndpoint {
 
     public static final String BASE_URL = "/v1.0/worklogs";
     private final WorkLogService workLogService;
+    private final WorkLogMapper mapper;
 
     @GetMapping("/{id}")
     public WorkLogDto getWorkLog(@PathVariable(value = "id") Long id) {
-        return workLogService.getWorkLogById(id);
+        return mapper.workLogToWorkLogDto(workLogService.getWorkLogById(id));
     }
 
     @GetMapping
-    public WorkLogListDto getWorkLogs() {
-        return new WorkLogListDto(workLogService.getAllWorkLogs());
+    public List<WorkLogDto> getWorkLogs() {
+        return workLogService.getAllWorkLogs().stream().map(mapper::workLogToWorkLogDto).collect(Collectors.toList());
     }
 
     @PostMapping
     public WorkLogDto createWorkLog(@RequestBody WorkLogDto workLogDto) {
-        return workLogService.createWorkLog(workLogDto);
+        WorkLog workLog = mapper.workLogDtoToWorkLog(workLogDto);
+
+        WorkLog returnedWorkLog = workLogService.createWorkLog(workLog);
+
+        return mapper.workLogToWorkLogDto(returnedWorkLog);
     }
 
     @PutMapping({"/{id}"})
     public WorkLogDto updateWorkLog(@PathVariable Long id, @RequestBody WorkLogDto workLogDto) {
-        return workLogService.updateWorkLog(id, workLogDto);
+        WorkLog workLog = mapper.workLogDtoToWorkLog(workLogDto);
+
+        return mapper.workLogToWorkLogDto(workLogService.updateWorkLog(id, workLog));
     }
 
     @DeleteMapping("/{id}")

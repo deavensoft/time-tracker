@@ -1,7 +1,5 @@
 package com.deavensoft.timetracker.service;
 
-import com.deavensoft.timetracker.api.mapper.WorkLogMapper;
-import com.deavensoft.timetracker.api.model.WorkLogDto;
 import com.deavensoft.timetracker.domain.WorkLog;
 import com.deavensoft.timetracker.repository.WorkLogRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,8 +29,6 @@ class WorkLogServiceImplTest {
     @Mock
     private WorkLogRepository workLogRepository;
 
-    WorkLogMapper mapper = WorkLogMapper.INSTANCE;
-
     private WorkLog workLog1;
     private WorkLogService workLogService;
 
@@ -41,7 +37,7 @@ class WorkLogServiceImplTest {
 
         MockitoAnnotations.initMocks(this);
 
-        workLogService = new WorkLogServiceImpl(workLogRepository, mapper);
+        workLogService = new WorkLogServiceImpl(workLogRepository);
 
         workLog1 = new WorkLog();
         workLog1.setId(1L);
@@ -65,7 +61,7 @@ class WorkLogServiceImplTest {
         //when
         when(workLogRepository.findById(anyLong())).thenReturn(Optional.of(workLog));
 
-        WorkLogDto returnedWorkLogDto = workLogService.getWorkLogById(ID);
+        WorkLog returnedWorkLogDto = workLogService.getWorkLogById(ID);
 
         //then
         assertEquals(ID, returnedWorkLogDto.getId());
@@ -92,7 +88,7 @@ class WorkLogServiceImplTest {
         //when
         when(workLogRepository.findAll()).thenReturn(Arrays.asList(workLog1, workLog2));
 
-        List<WorkLogDto> workLogsDto = workLogService.getAllWorkLogs();
+        List<WorkLog> workLogsDto = workLogService.getAllWorkLogs();
 
         //then
         assertEquals(2, workLogsDto.size());
@@ -102,47 +98,40 @@ class WorkLogServiceImplTest {
     @Test
     void createWorkLog() {
         //given
-        WorkLogDto workLogDto = new WorkLogDto();
-        workLogDto.setId(workLog1.getId());
-        workLogDto.setDate(workLog1.getDate());
-        workLogDto.setHours(workLog1.getHours());
-        workLogDto.setTopic(workLog1.getTopic());
-        workLogDto.setDescription(workLog1.getDescription());
-
         when(workLogRepository.save(any(WorkLog.class))).thenReturn(workLog1);
 
         //when
-        WorkLogDto savedDto = workLogService.createWorkLog(workLogDto);
+        WorkLog savedWorkLog = workLogService.createWorkLog(workLog1);
 
         //then
-        assertEquals(workLogDto.getId(), savedDto.getId());
-        assertEquals(workLogDto.getDate(), savedDto.getDate());
-        assertEquals(workLogDto.getHours(), savedDto.getHours());
-        assertEquals(workLogDto.getTopic(), savedDto.getTopic());
-        assertEquals(workLogDto.getDescription(), savedDto.getDescription());
+        assertEquals(workLog1.getId(), savedWorkLog.getId());
+        assertEquals(workLog1.getDate(), savedWorkLog.getDate());
+        assertEquals(workLog1.getHours(), savedWorkLog.getHours());
+        assertEquals(workLog1.getTopic(), savedWorkLog.getTopic());
+        assertEquals(workLog1.getDescription(), savedWorkLog.getDescription());
     }
 
     @Test
     void updateWorkLog() {
         //given
-        WorkLogDto workLogDto = new WorkLogDto();
-        workLogDto.setId(workLog1.getId());
-        workLogDto.setDate(workLog1.getDate());
-        workLogDto.setHours(workLog1.getHours());
-        workLogDto.setTopic(workLog1.getTopic());
-        workLogDto.setDescription("New description");
+        WorkLog updateWorkLog = new WorkLog();
+        updateWorkLog.setId(5L);
+        updateWorkLog.setDate(workLog1.getDate());
+        updateWorkLog.setHours(workLog1.getHours());
+        updateWorkLog.setTopic(workLog1.getTopic());
+        updateWorkLog.setDescription("New description");
 
         when(workLogRepository.save(any(WorkLog.class))).thenReturn(workLog1);
 
         //when
-        WorkLogDto savedDto = workLogService.updateWorkLog(ID, workLogDto);
+        WorkLog savedDto = workLogService.updateWorkLog(ID, updateWorkLog);
 
         //then
-        assertEquals(workLogDto.getId(), savedDto.getId());
-        assertEquals(workLogDto.getDate(), savedDto.getDate());
-        assertEquals(workLogDto.getHours(), savedDto.getHours());
-        assertEquals(workLogDto.getTopic(), savedDto.getTopic());
-        assertNotEquals(workLogDto.getDescription(), savedDto.getDescription());
+        assertEquals(updateWorkLog.getId(), savedDto.getId());
+        assertEquals(updateWorkLog.getDate(), savedDto.getDate());
+        assertEquals(updateWorkLog.getHours(), savedDto.getHours());
+        assertEquals(updateWorkLog.getTopic(), savedDto.getTopic());
+        assertNotEquals(updateWorkLog.getDescription(), savedDto.getDescription());
     }
 
     @Test
