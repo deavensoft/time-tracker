@@ -20,7 +20,7 @@ public class WorkLogEndpoint {
     private final WorkLogMapper mapper;
 
     @GetMapping("/{id}")
-    public WorkLogDto getWorkLog(@PathVariable(value = "id") Long id) {
+    public WorkLogDto getWorkLog(@PathVariable Long id) {
         return mapper.workLogToWorkLogDto(workLogService.getWorkLogById(id));
     }
 
