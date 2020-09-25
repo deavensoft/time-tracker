@@ -31,11 +31,16 @@ public class WorkLogEndpoint {
 
     @PostMapping
     public WorkLogDto createWorkLog(@RequestBody WorkLogDto workLogDto) {
-        WorkLog workLog = mapper.workLogDtoToWorkLog(workLogDto);
+        if (workLogDto.getUserId() == null) {
+            throw new IllegalArgumentException("User id must not be null!");
+        } else {
 
-        WorkLog returnedWorkLog = workLogService.createWorkLog(workLog);
+            WorkLog workLog = mapper.workLogDtoToWorkLog(workLogDto);
+            WorkLog returnedWorkLog = workLogService.createWorkLog(workLog);
 
-        return mapper.workLogToWorkLogDto(returnedWorkLog);
+            return mapper.workLogToWorkLogDto(returnedWorkLog);
+        }
+
     }
 
     @PutMapping({"/{id}"})

@@ -49,4 +49,9 @@ public class UserServiceImpl implements UserService {
             userRepository.save(updateUser);
         }
     }
+
+    @Override
+    public List<User> getAllUsersByRoles(List<String> roles) {
+        return null;
+    }
 }

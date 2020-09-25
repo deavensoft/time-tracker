@@ -3,12 +3,9 @@ package com.deavensoft.timetracker.service;
 import com.deavensoft.timetracker.domain.Role;
 import com.deavensoft.timetracker.repository.RoleRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @AllArgsConstructor
 public class RoleServiceImpl implements RoleService {
@@ -32,4 +29,11 @@ public class RoleServiceImpl implements RoleService {
     public Role createRole(Role role) {
         return roleRepository.save(role);
     }
+
+    @Override
+    public Role getRoleByUserRole(Role.UserRole userRole) {
+        return roleRepository.findByRole(userRole);
+    }
+
+
 }
