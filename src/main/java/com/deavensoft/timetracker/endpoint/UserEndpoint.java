@@ -1,10 +1,8 @@
 package com.deavensoft.timetracker.endpoint;
 
-import com.deavensoft.timetracker.api.mapper.RoleMapper;
 import com.deavensoft.timetracker.api.mapper.UserMapper;
 import com.deavensoft.timetracker.api.model.UserDto;
 import com.deavensoft.timetracker.domain.User;
-import com.deavensoft.timetracker.service.RoleService;
 import com.deavensoft.timetracker.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -19,9 +17,7 @@ import java.util.stream.Collectors;
 public class UserEndpoint {
     public static final String BASE_URL = "/v1.0/users";
     private final UserService userService;
-    private final RoleService roleService;
     private final UserMapper mapper;
-    private final RoleMapper roleMapper;
 
     @GetMapping("/{id}")
     public UserDto getUserById(@PathVariable Long id) {
