@@ -10,7 +10,7 @@ import java.util.List;
 @Entity
 public class User {
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String firstName;
     private String lastName;
@@ -21,6 +21,14 @@ public class User {
 
     @ManyToMany
     @JoinTable(name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+            joinColumns = { @JoinColumn(name = "user_id") },
+            inverseJoinColumns = { @JoinColumn(name = "role_id") })
     private List<Role> roles = new ArrayList<>();
+
+    @OneToMany (mappedBy = "user")
+    private List<WorkLog> workLogs = new ArrayList<>();
+
+    public void addRole(Role role) {
+        roles.add(role);
+    }
 }

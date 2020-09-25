@@ -2,9 +2,10 @@ package com.deavensoft.timetracker.domain;
 
 import lombok.Data;
 
-import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Id;
 
 @Data
 @Entity
@@ -15,12 +16,6 @@ public class Role{
     }
 
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
-    private Long id;
-
     @Enumerated (EnumType.STRING)
     private UserRole role;
-
-    @ManyToMany (mappedBy = "roles")
-    private List<User> users = new ArrayList<>();
 }
