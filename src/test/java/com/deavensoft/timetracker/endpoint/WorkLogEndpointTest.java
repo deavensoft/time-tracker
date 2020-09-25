@@ -2,6 +2,7 @@ package com.deavensoft.timetracker.endpoint;
 
 import com.deavensoft.timetracker.api.mapper.WorkLogMapper;
 import com.deavensoft.timetracker.api.model.WorkLogDto;
+import com.deavensoft.timetracker.domain.User;
 import com.deavensoft.timetracker.domain.WorkLog;
 import com.deavensoft.timetracker.service.WorkLogService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -55,6 +56,8 @@ class WorkLogEndpointTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
+        User user = new User();
+        user.setId(1L);
 
         mockMvc = MockMvcBuilders.standaloneSetup(workLogEndpoint).build();
 
@@ -64,6 +67,7 @@ class WorkLogEndpointTest {
         workLogDto.setHours(5.5);
         workLogDto.setTopic("topic 1");
         workLogDto.setDescription("description 1");
+        workLogDto.setUserId(1L);
 
         returnedWorkLog = new WorkLog();
         returnedWorkLog.setId(1L);
@@ -71,6 +75,7 @@ class WorkLogEndpointTest {
         returnedWorkLog.setHours(5.5);
         returnedWorkLog.setTopic("topic 1");
         returnedWorkLog.setDescription("description 1");
+        returnedWorkLog.setUser(user);
     }
 
     @Test
