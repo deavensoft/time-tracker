@@ -125,7 +125,24 @@ public class UserEndpointTest {
                 .andExpect(jsonPath("$.roles[0].role", equalTo(userDto.getRoles().get(0).getRole().name())));
     }
 
+    @Test
+    void When_UserDoesNotHaveRoles_Expec_UserDoesNOtCreated() throws Exception {
+        userDto.setRoles(null);
 
+        when(userService.createUser(any())).thenReturn(user);
+        when(mapper.userToUserDto(any())).thenReturn(userDto);
 
+        mockMvc.perform(post(BASE_URL)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(userDto)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(userDto.getId()))
+
+                .andExpect(jsonPath("$.firstName", equalTo(userDto.getFirstName())))
+                .andExpect(jsonPath("$.lastName", equalTo(userDto.getLastName())))
+                .andExpect(jsonPath("$.email", equalTo(userDto.getEmail())))
+                .andExpect(jsonPath("$.roles[0].role", equalTo(userDto.getRoles().get(0).getRole().name())));
+
+    }
 
 }

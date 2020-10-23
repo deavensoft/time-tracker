@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,8 +31,13 @@ public class UserEndpoint {
     }
 
     @GetMapping("/search")
-    public List<UserDto> getAllUsersByRoles(@RequestParam List<String> roles) {
-            return null;
+    public List<UserDto> getAllUsersByRoles() {
+
+        ArrayList<String> roles = new ArrayList();
+        roles.add("MANAGER");
+        final List<User> allUsersByRoles = userService.getAllUsersByRoles(roles);
+
+        return null;
     }
 
     @PostMapping
@@ -62,5 +68,6 @@ public class UserEndpoint {
     public void deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
     }
+
 
 }
