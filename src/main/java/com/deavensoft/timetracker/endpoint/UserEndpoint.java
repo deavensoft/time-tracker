@@ -31,13 +31,17 @@ public class UserEndpoint {
     }
 
     @GetMapping("/search")
-    public List<UserDto> getAllUsersByRoles() {
+    public List<UserDto> getAllUsersByRoles(@RequestParam List<String> role) {
+        List<UserDto> usersDto = new ArrayList<>();
+        for (String userRole : role) {
+            final List<User> admin = userService.getAllUsersByRoles(userRole);
 
-        ArrayList<String> roles = new ArrayList();
-        roles.add("MANAGER");
-        final List<User> allUsersByRoles = userService.getAllUsersByRoles(roles);
+            for (User user : admin) {
+                usersDto.add(mapper.userToUserDto(user));
+            }
+        }
 
-        return null;
+        return usersDto;
     }
 
     @PostMapping
@@ -71,3 +75,19 @@ public class UserEndpoint {
 
 
 }
+
+//SELECT *
+//FROM USER
+//INNER JOIN WORK_LOG
+//ON USER.ID = WORK_LOG.USER_ID
+
+
+//SELECT *
+//FROM USER_ROLES
+//WHERE ROLE_ID LIKE 'MANAGER'
+
+//SELECT *
+//FROM USER_ROLES
+//INNER JOIN USER
+//ON USER.ID = USER_ROLES.USER_ID
+//WHERE ROLE_ID LIKE 'MANAGER'
