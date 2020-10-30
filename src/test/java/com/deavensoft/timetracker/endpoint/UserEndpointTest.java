@@ -7,6 +7,7 @@ import com.deavensoft.timetracker.domain.Role;
 import com.deavensoft.timetracker.domain.User;
 import com.deavensoft.timetracker.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -15,6 +16,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.util.NestedServletException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -46,8 +48,9 @@ public class UserEndpointTest {
     private MockMvc mockMvc;
     private User user;
     private UserDto userDto;
+
     @BeforeEach
-    void setUp(){
+    void setUp() {
         MockitoAnnotations.initMocks(this);
 
         mockMvc = MockMvcBuilders.standaloneSetup(userEndpoint).build();
@@ -132,17 +135,15 @@ public class UserEndpointTest {
         when(userService.createUser(any())).thenReturn(user);
         when(mapper.userToUserDto(any())).thenReturn(userDto);
 
-        mockMvc.perform(post(BASE_URL)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(new ObjectMapper().writeValueAsString(userDto)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(userDto.getId()))
+        final NestedServletException nestedServletException = Assertions.assertThrows(NestedServletException.class, () -> {
+            mockMvc.perform(post(BASE_URL)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(new ObjectMapper().writeValueAsString(userDto)))
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.id").value(userDto.getId()));
+        });
 
-                .andExpect(jsonPath("$.firstName", equalTo(userDto.getFirstName())))
-                .andExpect(jsonPath("$.lastName", equalTo(userDto.getLastName())))
-                .andExpect(jsonPath("$.email", equalTo(userDto.getEmail())))
-                .andExpect(jsonPath("$.roles[0].role", equalTo(userDto.getRoles().get(0).getRole().name())));
-
+        Assertions.assertEquals(IllegalArgumentException.class, nestedServletException.getCause().getClass());
     }
 
 }

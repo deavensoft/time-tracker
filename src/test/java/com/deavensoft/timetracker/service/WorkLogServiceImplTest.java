@@ -65,6 +65,7 @@ class WorkLogServiceImplTest {
 
         //then
         assertEquals(ID, returnedWorkLogDto.getId());
+
     }
 
     @Test

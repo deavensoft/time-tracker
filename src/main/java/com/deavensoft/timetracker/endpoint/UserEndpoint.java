@@ -46,7 +46,7 @@ public class UserEndpoint {
 
     @PostMapping
     public UserDto createUser(@RequestBody UserDto userDto) {
-        if (userDto.getRoles().isEmpty()) {
+        if (userDto.getRoles() == null || userDto.getRoles().isEmpty()) {
             throw new IllegalArgumentException("User must have role(s)");
         } else {
             User user = mapper.userDtoToUser(userDto);
