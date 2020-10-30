@@ -9,9 +9,9 @@ import java.util.List;
 @Data
 @Entity
 public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
     private String firstName;
     private String lastName;
     private Boolean isActive = true;
@@ -24,6 +24,7 @@ public class User {
             joinColumns = { @JoinColumn(name = "user_id") },
             inverseJoinColumns = { @JoinColumn(name = "role_id") })
     private List<Role> roles = new ArrayList<>();
+
 
     @OneToMany (mappedBy = "user")
     private List<WorkLog> workLogs = new ArrayList<>();
