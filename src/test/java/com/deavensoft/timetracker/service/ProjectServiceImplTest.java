@@ -8,8 +8,10 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
 import java.util.Optional;
+import org.mockito.MockitoAnnotations;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
@@ -25,6 +27,8 @@ class ProjectServiceImplTest {
 
     @BeforeEach
     void setUp() {
+        MockitoAnnotations.initMocks(this);
+
         projectService = new ProjectServiceImpl(projectRepository);
 
         testProject = new Project();
@@ -46,6 +50,14 @@ class ProjectServiceImplTest {
 
     @Test
     void getProjectById_shouldRaiseException_WhenNotFound() {
+
+        // given
+        when(projectRepository.findById(anyLong())).thenReturn(Optional.empty());
+
+        // then
+        assertThrows(IllegalArgumentException.class, ()-> {
+            projectService.getProjectById(1L);
+        });
     }
 
     @Test
@@ -57,11 +69,24 @@ class ProjectServiceImplTest {
     }
 
     @Test
-    void createProject() {
+    void createProject_shouldReturnIdAndName() {
+        when(projectRepository.save(any())).thenReturn(testProject);
+
+        Project project2 = projectService.createProject(testProject);
+
+        assertEquals(testProject.getId(), project2.getId());
+        assertEquals(testProject.getName(), project2.getName());
     }
 
     @Test
-    void updateProject() {
+    void updateProject_shouldThrowException_whenWrongId() {
+        when(projectRepository.findById(anyLong())).thenReturn(Optional.empty());
+
+        // then
+        assertThrows(IllegalArgumentException.class, ()-> {
+            projectService.updateProject(2L, testProject);
+        });
+
     }
 
     @Test
