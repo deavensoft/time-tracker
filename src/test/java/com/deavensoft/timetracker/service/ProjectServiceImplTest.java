@@ -1,18 +1,26 @@
 package com.deavensoft.timetracker.service;
 
 import com.deavensoft.timetracker.domain.Project;
+import com.deavensoft.timetracker.domain.User;
 import com.deavensoft.timetracker.repository.ProjectRepository;
+import com.deavensoft.timetracker.repository.UserRepository;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mock;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -28,13 +36,19 @@ class ProjectServiceImplTest {
     @Mock
     private ProjectRepository projectRepository;
 
+	@Mock
+	private UserRepository userRepository;
+
+	@Captor
+	ArgumentCaptor<Project> projectArgumentCaptor;
+	
     private Project testProject;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
 
-        projectService = new ProjectServiceImpl(projectRepository);
+        projectService = new ProjectServiceImpl(projectRepository, userRepository);
 
         testProject = new Project();
         testProject.setId(5L);
@@ -79,7 +93,7 @@ class ProjectServiceImplTest {
 
 	    // then
 	    MatcherAssert.assertThat(projects, Matchers.is(Matchers.notNullValue()));
-	    MatcherAssert.assertThat(projects, Matchers.hasSize(3));
+	    MatcherAssert.assertThat(projects, hasSize(3));
 	    MatcherAssert.assertThat(projects.get(0).getId(), Matchers.is(1L));
 
     }
@@ -110,6 +124,40 @@ class ProjectServiceImplTest {
 
     }
 
+    @Test
+    void addUserToProject_shouldAddUser() {
+    	User testUser = new User();
+    	testUser.setId(1L);
+		
+    	when(userRepository.findById(anyLong())).thenReturn(Optional.of(testUser));
+    	
+    	when(projectRepository.findById(anyLong())).thenReturn(Optional.of(testProject));
+	    
+	    projectService.addUserOnProject(testProject.getId(), testUser.getId());
+
+	    Mockito.verify(projectRepository).save(projectArgumentCaptor.capture());
+	    Project project = projectArgumentCaptor.getValue();
+
+	    MatcherAssert.assertThat(project.getUsers(), hasSize(1));
+	    MatcherAssert.assertThat(project.getUsers().get(0), is(testUser));
+    }
+
+	@Test
+	void addUserToProject_shouldThrowException_whenProjectNotFound() {
+		User testUser = new User();
+		Long testProjectId = testProject.getId();
+		Long testUserId = testUser.getId();
+		testUser.setId(1L);
+
+		when(userRepository.findById(anyLong())).thenReturn(Optional.of(testUser));
+
+		when(projectRepository.findById(anyLong())).thenReturn(Optional.empty());
+
+		assertThrows(IllegalArgumentException.class, ()-> {
+			projectService.addUserOnProject(testProjectId, testUserId);
+		});
+	}
+    
     @Test
     void deleteProject() {
     }

@@ -55,7 +55,7 @@ public class ProjectEndpoint {
     }
 
     @PutMapping("/{id}/addUser/{userId}")
-    public ProjectDto addUsers(@PathVariable Long id, @PathVariable Long userId) {
+    public ProjectDto addUser(@PathVariable Long id, @PathVariable Long userId) {
 
         Project project = projectService.addUserOnProject(id, userId);
 
