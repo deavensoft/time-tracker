@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 
-@Component
+//@Component
 public class Bootstrap implements CommandLineRunner {
 
     private final UserService userService;
@@ -31,12 +31,12 @@ public class Bootstrap implements CommandLineRunner {
 	    employee.setRole(Role.UserRole.EMPLOYEE);
         Role admin = new Role();
 	    admin.setRole(Role.UserRole.ADMIN);
-        
+
         User user = new User();
         user.setFirstName("firstName");
         user.setLastName("lastName");
         user.setEmail("email@gmail.com");
-		user.setRole(Arrays.asList(manager, employee, admin));
+		user.setRoles(Arrays.asList(manager, employee, admin));
 
         userRepository.save(user);
     }

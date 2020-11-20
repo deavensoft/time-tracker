@@ -24,13 +24,13 @@ public class User {
 		    name="user_roles",
 		    joinColumns=@JoinColumn(name="user_id")
     )
-    private List<Role> role = new ArrayList<>();
+    private List<Role> roles = new ArrayList<>();
 
 
     @OneToMany (mappedBy = "user")
     private List<WorkLog> workLogs = new ArrayList<>();
 
     public void addRole(Role newRole) {
-        role.add(newRole);
+        roles.add(newRole);
     }
 }
