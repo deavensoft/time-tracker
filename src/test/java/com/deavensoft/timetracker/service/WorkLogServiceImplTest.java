@@ -22,17 +22,18 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
 class WorkLogServiceImplTest {
 
-    private Long ID = 1l;
-    private LocalDate DATE = LocalDate.now();
-    private Double HOURS = 7.5;
-    public String TOPIC = "topic";
-    public String DESCRIPTION = "description";
+    private static final Long ID = 1l;
+    private static final LocalDate DATE = LocalDate.now();
+    private static final Double HOURS = 7.5;
+	private static final String TOPIC = "topic";
+	private static final String DESCRIPTION = "description";
 
     @Mock
     private WorkLogRepository workLogRepository;
@@ -43,8 +44,7 @@ class WorkLogServiceImplTest {
     private WorkLogService workLogService;
     private User user;
     private Project project;
-
-
+    
     @BeforeEach
     void setUp() {
 
@@ -58,13 +58,17 @@ class WorkLogServiceImplTest {
         workLog1.setHours(HOURS);
         workLog1.setTopic(TOPIC);
         workLog1.setDescription(DESCRIPTION);
-
+        
         user = new User();
         user.setId(1L);
 
         project = new Project();
+        project.setId(1L);
         project.setUsers(Collections.singletonList(user));
 
+	    workLog1.setProject(project);
+	    workLog1.setUser(user);
+	    
         when(projectRepository.findById(anyLong())).thenReturn(Optional.of(project));
     }
 
@@ -164,24 +168,8 @@ class WorkLogServiceImplTest {
 
     @Test
     void createWorkLog_shouldSaveWorklog_whenUserIsInProject() {
-        // given
-        WorkLog worklog = new WorkLog();
-        worklog.setId(5L);
-        worklog.setDate(workLog1.getDate());
-        worklog.setHours(workLog1.getHours());
-        worklog.setTopic(workLog1.getTopic());
-        worklog.setDescription("New description");
-        Project project = new Project();
-        project.setId(1L);
-        worklog.setProject(project);
-        User user = new User();
-        user.setId(2L);
-        worklog.setUser(user);
-
-
-
-        // when
-        WorkLog workLog = workLogService.createWorkLog(worklog);
+    	// when
+        WorkLog workLog = workLogService.createWorkLog(workLog1);
 
         // then
         verify(workLogRepository, timeout(1)).save(any());
@@ -189,24 +177,12 @@ class WorkLogServiceImplTest {
 
     @Test
     void createWorkLog_shouldRaiseException_whenUserIsNotInProject() {
-        // given
-        WorkLog worklog = new WorkLog();
-        worklog.setId(5L);
-        worklog.setDate(workLog1.getDate());
-        worklog.setHours(workLog1.getHours());
-        worklog.setTopic(workLog1.getTopic());
-        worklog.setDescription("New description");
-        Project project = new Project();
-        project.setId(1L);
-        worklog.setProject(project);
-        User user = new User();
-        user.setId(2L);
-        worklog.setUser(user);
-
-        // when
-        workLogService.createWorkLog(worklog);
-
-        // then
-        verify(workLogRepository, timeout(1)).save(any());
+        //given
+	    project.setUsers(null);
+    	
+    	// then
+	    assertThrows(IllegalArgumentException.class, ()-> {
+		    workLogService.createWorkLog(workLog1);
+	    });
     }
 }

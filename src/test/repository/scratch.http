@@ -51,5 +51,19 @@ Content-Type: application/json
 }
 
 ####
+GET http://localhost:9090/v1.0/worklogs
+Accept: application/json
 
+###
 
+POST http://localhost:9090/v1.0/worklogs
+Content-Type: application/json
+
+{
+  "date" : "2020-11-20",
+  "hours" : 2,
+  "topic" : "Topic",
+  "description": "description",
+  "user_id" : 1,
+  "project_id" : 1
+}
