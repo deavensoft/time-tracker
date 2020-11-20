@@ -15,4 +15,8 @@ public class WorkLogDto {
 
     @JsonProperty("user_id")
     private Long userId;
+
+    @JsonProperty("project_id")
+    private Long projectId;
+
 }

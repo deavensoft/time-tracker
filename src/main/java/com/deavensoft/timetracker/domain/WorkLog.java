@@ -14,11 +14,19 @@ public class WorkLog {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
     private LocalDate date;
+
+    @Column(nullable = false)
     private Double hours;
+
     private String topic;
     private String description;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     private User user;
+
+    @ManyToOne(optional = false)
+    private Project project;
 }

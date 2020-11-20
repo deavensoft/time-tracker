@@ -1,7 +1,11 @@
 package com.deavensoft.timetracker.service;
 
+import com.deavensoft.timetracker.domain.Project;
+import com.deavensoft.timetracker.domain.User;
 import com.deavensoft.timetracker.domain.WorkLog;
 import com.deavensoft.timetracker.repository.WorkLogRepository;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -12,6 +16,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -139,5 +145,55 @@ class WorkLogServiceImplTest {
         workLogRepository.deleteById(ID);
 
         verify(workLogRepository, times(1)).deleteById(anyLong());
+    }
+
+    @Test
+    void createWorkLog_shouldSaveWorklog_whenUserIsInProject() {
+        // given
+        WorkLog worklog = new WorkLog();
+        worklog.setId(5L);
+        worklog.setDate(workLog1.getDate());
+        worklog.setHours(workLog1.getHours());
+        worklog.setTopic(workLog1.getTopic());
+        worklog.setDescription("New description");
+        Project project = new Project();
+        project.setId(1L);
+        worklog.setProject(project);
+        User user = new User();
+        user.setId(2L);
+        worklog.setUser(user);
+
+
+
+        // when
+        WorkLog workLog = workLogService.createWorkLog(worklog);
+
+        // then
+        verify(workLogRepository, timeout(1)).save(any());
+    }
+
+    @Test
+    void createWorkLog_shouldRaiseException_whenUserIsNotInProject() {
+        // given
+        WorkLog worklog = new WorkLog();
+        worklog.setId(5L);
+        worklog.setDate(workLog1.getDate());
+        worklog.setHours(workLog1.getHours());
+        worklog.setTopic(workLog1.getTopic());
+        worklog.setDescription("New description");
+        Project project = new Project();
+        project.setId(1L);
+        worklog.setProject(project);
+        User user = new User();
+        user.setId(2L);
+        worklog.setUser(user);
+
+
+
+        // when
+        WorkLog workLog = workLogService.createWorkLog(worklog);
+
+        // then
+        verify(workLogRepository, timeout(1)).save(any());
     }
 }

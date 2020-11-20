@@ -7,6 +7,10 @@ Content-Type: application/json
 }
 
 ###
+PUT http://localhost:9090/v1.0/projects/1/addUser/1
+Accept: application/json
+
+########
 GET http://localhost:9090/v1.0/projects
 Accept: application/json
 
