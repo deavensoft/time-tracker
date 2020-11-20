@@ -18,7 +18,6 @@ import java.util.List;
 @Data
 @Entity
 @Builder
-@Entity
 @NoArgsConstructor
 @AllArgsConstructor
 public class Project {
