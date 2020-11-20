@@ -3,6 +3,8 @@ package com.deavensoft.timetracker.service;
 import com.deavensoft.timetracker.domain.Project;
 import com.deavensoft.timetracker.domain.User;
 import com.deavensoft.timetracker.repository.ProjectRepository;
+import com.deavensoft.timetracker.repository.UserRepository;
+import java.util.ArrayList;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Collections;
@@ -15,6 +17,7 @@ import java.util.stream.StreamSupport;
 public class ProjectServiceImpl implements ProjectService {
 
     private final ProjectRepository projectRepository;
+    private final UserRepository userRepository;
 
     @Override
     public Project getProjectById(Long id) {
@@ -58,4 +61,27 @@ public class ProjectServiceImpl implements ProjectService {
             projectRepository.save(updateProject);
         }
     }
+
+    @Override
+    public Project addUserOnProject(Long id, Long userId) {
+        final Optional<Project> project = projectRepository.findById(id);
+        final Optional<User> user = userRepository.findById(userId);
+
+        if (project.isPresent() && user.isPresent()) {
+            Project updateProject = project.get();
+
+            if (updateProject.getUsers() == null) {
+                updateProject.setUsers(new ArrayList<>());
+            }
+
+            updateProject.getUsers().add(user.get());
+
+            return projectRepository.save(updateProject);
+        } else {
+            throw new IllegalArgumentException("Project or user id not found.");
+        }
+
+    }
+
+
 }

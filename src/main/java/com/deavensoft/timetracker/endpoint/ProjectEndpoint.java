@@ -54,6 +54,17 @@ public class ProjectEndpoint {
         return mapper.projectToProjectDto(project);
     }
 
+    @PutMapping("/{id}/addUser/{userId}")
+    public ProjectDto addUsers(@PathVariable Long id, @PathVariable Long userId) {
+
+        Project project = projectService.addUserOnProject(id, userId);
+
+        return mapper.projectToProjectDto(project);
+    }
+
+
+
+
     @PutMapping({"/{id}"})
     public ProjectDto updateProject(@PathVariable Long id, @RequestBody ProjectDto projectDto) {
         Project project = mapper.projectDtoToProject(projectDto);
