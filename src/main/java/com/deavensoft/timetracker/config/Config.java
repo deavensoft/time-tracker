@@ -11,8 +11,8 @@ import org.springframework.context.annotation.Configuration;
 public class Config {
 
     @Bean
-    public WorkLogService workLogService(WorkLogRepository repository){
-        return new WorkLogServiceImpl(repository);
+    public WorkLogService workLogService(WorkLogRepository repository, ProjectRepository projectRepository){
+        return new WorkLogServiceImpl(repository, projectRepository);
     }
 
     @Bean

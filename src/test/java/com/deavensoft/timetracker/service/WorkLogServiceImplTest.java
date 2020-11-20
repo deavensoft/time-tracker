@@ -3,7 +3,9 @@ package com.deavensoft.timetracker.service;
 import com.deavensoft.timetracker.domain.Project;
 import com.deavensoft.timetracker.domain.User;
 import com.deavensoft.timetracker.domain.WorkLog;
+import com.deavensoft.timetracker.repository.ProjectRepository;
 import com.deavensoft.timetracker.repository.WorkLogRepository;
+import java.util.Collections;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,16 +36,21 @@ class WorkLogServiceImplTest {
 
     @Mock
     private WorkLogRepository workLogRepository;
+    @Mock
+    private ProjectRepository projectRepository;
 
     private WorkLog workLog1;
     private WorkLogService workLogService;
+    private User user;
+    private Project project;
+
 
     @BeforeEach
     void setUp() {
 
         MockitoAnnotations.initMocks(this);
 
-        workLogService = new WorkLogServiceImpl(workLogRepository);
+        workLogService = new WorkLogServiceImpl(workLogRepository, projectRepository);
 
         workLog1 = new WorkLog();
         workLog1.setId(1L);
@@ -51,6 +58,14 @@ class WorkLogServiceImplTest {
         workLog1.setHours(HOURS);
         workLog1.setTopic(TOPIC);
         workLog1.setDescription(DESCRIPTION);
+
+        user = new User();
+        user.setId(1L);
+
+        project = new Project();
+        project.setUsers(Collections.singletonList(user));
+
+        when(projectRepository.findById(anyLong())).thenReturn(Optional.of(project));
     }
 
     @Test
@@ -188,10 +203,8 @@ class WorkLogServiceImplTest {
         user.setId(2L);
         worklog.setUser(user);
 
-
-
         // when
-        WorkLog workLog = workLogService.createWorkLog(worklog);
+        workLogService.createWorkLog(worklog);
 
         // then
         verify(workLogRepository, timeout(1)).save(any());
