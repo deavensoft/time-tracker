@@ -34,7 +34,7 @@ public class UserMapperTest {
         user.setLastName(lastName);
         user.setIsActive(isActive);
         user.setEmail(email);
-        user.setRoles(roles);
+        user.setRole(roles);
 
         UserDto userDto = mapper.userToUserDto(user);
 
@@ -67,6 +67,6 @@ public class UserMapperTest {
         assertEquals(lastName, user.getLastName());
         assertEquals(email, user.getEmail());
         assertEquals(isActive, user.getIsActive());
-        assertNotNull(user.getRoles());
+        assertNotNull(user.getRole());
     }
 }

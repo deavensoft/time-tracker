@@ -19,17 +19,18 @@ public class User {
     @Column(unique = true)
     private String email;
 
-    @ManyToMany
-    @JoinTable(name = "user_roles",
-            joinColumns = { @JoinColumn(name = "user_id") },
-            inverseJoinColumns = { @JoinColumn(name = "role_id") })
-    private List<Role> roles = new ArrayList<>();
+    @ElementCollection
+    @CollectionTable(
+		    name="user_roles",
+		    joinColumns=@JoinColumn(name="user_id")
+    )
+    private List<Role> role = new ArrayList<>();
 
 
     @OneToMany (mappedBy = "user")
     private List<WorkLog> workLogs = new ArrayList<>();
 
-    public void addRole(Role role) {
-        roles.add(role);
+    public void addRole(Role newRole) {
+        role.add(newRole);
     }
 }
