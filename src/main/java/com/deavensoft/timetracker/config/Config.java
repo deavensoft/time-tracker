@@ -1,9 +1,17 @@
 package com.deavensoft.timetracker.config;
 
+import com.deavensoft.timetracker.repository.ProjectRepository;
 import com.deavensoft.timetracker.repository.RoleRepository;
 import com.deavensoft.timetracker.repository.UserRepository;
 import com.deavensoft.timetracker.repository.WorkLogRepository;
-import com.deavensoft.timetracker.service.*;
+import com.deavensoft.timetracker.service.ProjectService;
+import com.deavensoft.timetracker.service.ProjectServiceImpl;
+import com.deavensoft.timetracker.service.RoleService;
+import com.deavensoft.timetracker.service.RoleServiceImpl;
+import com.deavensoft.timetracker.service.UserService;
+import com.deavensoft.timetracker.service.UserServiceImpl;
+import com.deavensoft.timetracker.service.WorkLogService;
+import com.deavensoft.timetracker.service.WorkLogServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -23,5 +31,11 @@ public class Config {
     @Bean
     public RoleService roleService(RoleRepository repository){
         return new RoleServiceImpl(repository);
+    }
+
+    @Bean
+    public ProjectService projectService(ProjectRepository projectRepository,
+                                         UserRepository userRepository) {
+        return new ProjectServiceImpl(projectRepository, userRepository);
     }
 }

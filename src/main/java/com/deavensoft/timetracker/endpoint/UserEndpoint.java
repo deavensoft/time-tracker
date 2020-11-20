@@ -55,8 +55,8 @@ public class UserEndpoint {
                 User returnedUser = userService.createUser(user);
 
                 return mapper.userToUserDto(returnedUser);
-            } catch (DataIntegrityViolationException notUniqEmailError) {
-                throw new IllegalArgumentException("Set valid email");
+            } catch (DataIntegrityViolationException e) {
+                throw new IllegalArgumentException("Set valid email", e);
             }
         }
     }
