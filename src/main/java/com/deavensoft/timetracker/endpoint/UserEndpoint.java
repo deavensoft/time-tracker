@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 @RequestMapping(UserEndpoint.BASE_URL)
 @RequiredArgsConstructor
 @RestController
+@CrossOrigin(maxAge = 3600)
 public class UserEndpoint {
     public static final String BASE_URL = "/v1.0/users";
     private final UserService userService;
