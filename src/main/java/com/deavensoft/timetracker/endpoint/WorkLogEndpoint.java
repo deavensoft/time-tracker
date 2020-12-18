@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 
 @RequestMapping(WorkLogEndpoint.BASE_URL)
 @RequiredArgsConstructor
+@CrossOrigin(maxAge = 3600)
 @RestController
 public class WorkLogEndpoint {
 

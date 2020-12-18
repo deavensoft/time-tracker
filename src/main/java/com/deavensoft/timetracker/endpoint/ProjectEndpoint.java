@@ -7,6 +7,7 @@ import com.deavensoft.timetracker.api.model.UserDto;
 import com.deavensoft.timetracker.domain.Project;
 import com.deavensoft.timetracker.service.ProjectService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +23,7 @@ import java.util.stream.Collectors;
 
 @RequestMapping(ProjectEndpoint.BASE_URL)
 @RequiredArgsConstructor
+@CrossOrigin(maxAge = 3600)
 @RestController
 public class ProjectEndpoint {
     public static final String BASE_URL = "/v1.0/projects";
