@@ -31,7 +31,7 @@ public class ExceptionInterceptor extends ResponseEntityExceptionHandler {
             .getReasonPhrase());
     return new ResponseEntity<>(customExceptionResponseResponse, HttpStatus.INTERNAL_SERVER_ERROR);
   }
-  
+
   @Override
   protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
       HttpHeaders headers, HttpStatus status, WebRequest request) {
