@@ -3,14 +3,22 @@ package com.deavensoft.timetracker.endpoint;
 import com.deavensoft.timetracker.api.mapper.UserMapper;
 import com.deavensoft.timetracker.api.model.UserDto;
 import com.deavensoft.timetracker.domain.User;
+import com.deavensoft.timetracker.exception.TimeTrackerException;
 import com.deavensoft.timetracker.service.UserService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RequestMapping(UserEndpoint.BASE_URL)
 @RequiredArgsConstructor
@@ -48,17 +56,12 @@ public class UserEndpoint {
     @PostMapping
     public UserDto createUser(@RequestBody UserDto userDto) {
         if (userDto.getRoles() == null || userDto.getRoles().isEmpty()) {
-            throw new IllegalArgumentException("User must have role(s)");
+            throw TimeTrackerException.postMessageBodyNotCorrect("User must have role(s)");
         } else {
             User user = mapper.userDtoToUser(userDto);
+            User returnedUser = userService.createUser(user);
 
-            try {
-                User returnedUser = userService.createUser(user);
-
-                return mapper.userToUserDto(returnedUser);
-            } catch (DataIntegrityViolationException e) {
-                throw new IllegalArgumentException("Set valid email", e);
-            }
+            return mapper.userToUserDto(returnedUser);
         }
     }
 
