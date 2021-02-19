@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class MyException {
+public class CustomExceptionResponse {
   private String message;
   private String details;
   private String hint;

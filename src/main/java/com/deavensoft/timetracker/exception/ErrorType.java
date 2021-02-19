@@ -7,7 +7,7 @@ public enum ErrorType {
 
   private String description;
 
-  private ErrorType( String description) {
+  ErrorType(String description) {
     this.description = description;
   }
 

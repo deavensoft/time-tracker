@@ -12,19 +12,19 @@ public class ExceptionInterceptor extends ResponseEntityExceptionHandler {
 
   @ExceptionHandler(TimeTrackerException.class)
   public final ResponseEntity<Object> handleAllTimeTrackerExceptions(TimeTrackerException ex) {
-    MyException myExceptionResponse =
-        new MyException(
+    CustomExceptionResponse customExceptionResponseResponse =
+        new CustomExceptionResponse(
             ex.getMessage(), ex.getDetails(), ex.getHint(), ex.getStatus());
-    return new ResponseEntity(myExceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+    return new ResponseEntity<>(customExceptionResponseResponse, HttpStatus.INTERNAL_SERVER_ERROR);
   }
 
   @ExceptionHandler(IllegalArgumentException.class)
   public final ResponseEntity<Object> handleAllIllegalArgumentExceptions(IllegalArgumentException ex) {
-    MyException myExceptionResponse =
-        new MyException(
+    CustomExceptionResponse customExceptionResponseResponse =
+        new CustomExceptionResponse(
             ex.getMessage(), ex.getLocalizedMessage(), "", HttpStatus.INTERNAL_SERVER_ERROR
             .getReasonPhrase());
-    return new ResponseEntity(myExceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+    return new ResponseEntity<>(customExceptionResponseResponse, HttpStatus.INTERNAL_SERVER_ERROR);
   }
 
 
