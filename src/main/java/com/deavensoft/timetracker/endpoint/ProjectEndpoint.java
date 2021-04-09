@@ -6,6 +6,8 @@ import com.deavensoft.timetracker.api.model.ProjectDto;
 import com.deavensoft.timetracker.api.model.UserDto;
 import com.deavensoft.timetracker.domain.Project;
 import com.deavensoft.timetracker.service.ProjectService;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,9 +19,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RequestMapping(ProjectEndpoint.BASE_URL)
 @RequiredArgsConstructor
@@ -63,8 +62,6 @@ public class ProjectEndpoint {
 
         return mapper.projectToProjectDto(project);
     }
-
-
 
 
     @PutMapping({"/{id}"})

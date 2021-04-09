@@ -2,11 +2,10 @@ package com.deavensoft.timetracker.service;
 
 import com.deavensoft.timetracker.domain.User;
 import com.deavensoft.timetracker.repository.UserRepository;
-import lombok.AllArgsConstructor;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public class UserServiceImpl implements UserService {
@@ -52,7 +51,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getAllUsersByRoles(String role) {
-
         return userRepository.findAllByUserRole(role);
     }
 }
