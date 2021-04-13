@@ -5,10 +5,14 @@ import com.deavensoft.timetracker.domain.User;
 import com.deavensoft.timetracker.domain.WorkLog;
 import com.deavensoft.timetracker.repository.ProjectRepository;
 import com.deavensoft.timetracker.repository.WorkLogRepository;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 import lombok.AllArgsConstructor;
+import org.hibernate.jdbc.Work;
 
 @AllArgsConstructor
 public class WorkLogServiceImpl implements WorkLogService {
@@ -52,12 +56,40 @@ public class WorkLogServiceImpl implements WorkLogService {
   @Override
   public WorkLog updateWorkLog(Long id, WorkLog workLog) {
     workLog.setId(id);
-
-    return workLogRepository.save(workLog);
+    if (valid(workLog)) {
+      return workLogRepository.save(workLog);
+    } else {
+      throw new IllegalArgumentException("Cannot crate worklog! Worklog data not valid");
+    }
   }
+
 
   @Override
   public void deleteWorkLog(Long id) {
     workLogRepository.deleteById(id);
+  }
+
+  @Override
+  public List<WorkLog> getWorkLogsBetweenDates(LocalDate from, LocalDate to) {
+    return workLogRepository.findWorkLogsBetweenDates(from, to);
+  }
+
+  @Override
+  public List<WorkLog> getWorkLogsBetweenDatesWithUser(Long userId, LocalDate from,
+      LocalDate to) {
+    return workLogRepository.findWorkLogsBetweenDatesWithUser(userId, from, to);
+  }
+
+  @Override
+  public List<WorkLog> getWorkLogsBetweenDatesWithProject(Long projectId, LocalDate from,
+      LocalDate to) {
+    return workLogRepository.findWorkLogsBetweenDatesWithProject(projectId, from, to);
+  }
+
+  @Override
+  public List<WorkLog> getWorkLogsBetweenDatesWithProjectAndUsers(Long projectId, Long userId,
+      LocalDate from, LocalDate to) {
+    return workLogRepository
+        .findWorkLogsBetweenDatesWithProjectAndUser(projectId, userId, from, to);
   }
 }

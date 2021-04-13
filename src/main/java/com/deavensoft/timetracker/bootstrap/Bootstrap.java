@@ -1,43 +1,74 @@
 package com.deavensoft.timetracker.bootstrap;
 
 
+import com.deavensoft.timetracker.domain.Project;
 import com.deavensoft.timetracker.domain.Role;
 import com.deavensoft.timetracker.domain.User;
+import com.deavensoft.timetracker.domain.WorkLog;
+import com.deavensoft.timetracker.repository.ProjectRepository;
 import com.deavensoft.timetracker.repository.UserRepository;
+import com.deavensoft.timetracker.repository.WorkLogRepository;
 import com.deavensoft.timetracker.service.UserService;
+import com.deavensoft.timetracker.service.WorkLogService;
+import java.time.LocalDate;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 
-//@Component
+@Component
 public class Bootstrap implements CommandLineRunner {
 
-    private final UserService userService;
-    private final UserRepository userRepository;
+  private final UserService userService;
+  private final UserRepository userRepository;
+  private final WorkLogRepository workLogRepository;
+  private final ProjectRepository projectRepository;
+
+  public Bootstrap(UserService userService,
+      UserRepository userRepository,
+      WorkLogRepository workLogRepository,
+      ProjectRepository projectRepository) {
+    this.userService = userService;
+    this.userRepository = userRepository;
+    this.workLogRepository = workLogRepository;
+    this.projectRepository = projectRepository;
+  }
+
+  @Override
+  public void run(String... args) throws Exception {
+
+    System.out.println("Here");
+    Role manager = new Role();
+    manager.setRole(Role.UserRole.MANAGER);
+    Role employee = new Role();
+    employee.setRole(Role.UserRole.EMPLOYEE);
+    Role admin = new Role();
+    admin.setRole(Role.UserRole.ADMIN);
+
+    User user = new User();
+    user.setFirstName("firstName");
+    user.setLastName("lastName");
+    user.setEmail("email@gmail.com");
+    user.setRoles(Arrays.asList(manager, employee, admin));
+
+    userRepository.save(user);
+
+    Project project = new Project();
+    project.setUsers(Arrays.asList(user));
+    project.setIsActive(true);
+    project.setName("name");
+    project.setDescription("desc");
 
 
-    public Bootstrap(UserService userService, UserRepository userRepository) {
-        this.userService = userService;
-        this.userRepository = userRepository;
-    }
+    WorkLog workLog = new WorkLog();
+    workLog.setUser(user);
+    workLog.setProject(projectRepository.save(project));
+    workLog.setDate(LocalDate.now());
+    workLog.setDescription("Worklog desc");
+    workLog.setTopic("Topic");
+    workLog.setHours(2.2);
 
-    @Override
-    public void run(String... args) throws Exception {
+    workLogRepository.save(workLog);
 
-        Role manager = new Role();
-        manager.setRole(Role.UserRole.MANAGER);
-        Role employee = new Role();
-	    employee.setRole(Role.UserRole.EMPLOYEE);
-        Role admin = new Role();
-	    admin.setRole(Role.UserRole.ADMIN);
-
-        User user = new User();
-        user.setFirstName("firstName");
-        user.setLastName("lastName");
-        user.setEmail("email@gmail.com");
-		user.setRoles(Arrays.asList(manager, employee, admin));
-
-        userRepository.save(user);
-    }
+  }
 }

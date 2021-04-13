@@ -27,9 +27,6 @@ public class User {
     private List<Role> roles = new ArrayList<>();
 
 
-    @OneToMany (mappedBy = "user")
-    private List<WorkLog> workLogs = new ArrayList<>();
-
     public void addRole(Role newRole) {
         roles.add(newRole);
     }

@@ -1,5 +1,6 @@
 package com.deavensoft.timetracker.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -29,4 +30,5 @@ public class WorkLog {
 
     @ManyToOne(optional = false)
     private Project project;
+
 }
