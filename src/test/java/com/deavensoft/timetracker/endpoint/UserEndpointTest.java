@@ -5,6 +5,7 @@ import com.deavensoft.timetracker.api.model.RoleDto;
 import com.deavensoft.timetracker.api.model.UserDto;
 import com.deavensoft.timetracker.domain.Role;
 import com.deavensoft.timetracker.domain.User;
+import com.deavensoft.timetracker.exception.TimeTrackerException;
 import com.deavensoft.timetracker.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
@@ -129,7 +130,7 @@ public class UserEndpointTest {
     }
 
     @Test
-    void When_UserDoesNotHaveRoles_Expec_UserDoesNOtCreated() throws Exception {
+    void When_UserDoesNotHaveRoles_Expect_UserDoesNotCreated() throws Exception {
         userDto.setRoles(null);
 
         when(userService.createUser(any())).thenReturn(user);
@@ -143,7 +144,7 @@ public class UserEndpointTest {
                     .andExpect(jsonPath("$.id").value(userDto.getId()));
         });
 
-        Assertions.assertEquals(IllegalArgumentException.class, nestedServletException.getCause().getClass());
+        Assertions.assertEquals(TimeTrackerException.class, nestedServletException.getCause().getClass());
     }
 
 }

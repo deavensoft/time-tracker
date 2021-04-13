@@ -1,9 +1,12 @@
 package com.deavensoft.timetracker.service;
 
 import com.deavensoft.timetracker.domain.Project;
+import com.deavensoft.timetracker.domain.Role;
+import com.deavensoft.timetracker.domain.Role.UserRole;
 import com.deavensoft.timetracker.domain.User;
 import com.deavensoft.timetracker.domain.WorkLog;
 import com.deavensoft.timetracker.repository.ProjectRepository;
+import com.deavensoft.timetracker.repository.UserRepository;
 import com.deavensoft.timetracker.repository.WorkLogRepository;
 import java.util.Collections;
 import org.hamcrest.MatcherAssert;
@@ -40,6 +43,8 @@ class WorkLogServiceImplTest {
   private WorkLogRepository workLogRepository;
   @Mock
   private ProjectRepository projectRepository;
+  @Mock
+  private UserRepository userRepository;
 
   private WorkLog workLog1;
   private WorkLog workLog2;
@@ -68,8 +73,16 @@ class WorkLogServiceImplTest {
     workLog2.setTopic(TOPIC);
     workLog2.setDescription(DESCRIPTION);
 
+    Role employee = new Role();
+    employee.setRole(Role.UserRole.EMPLOYEE);
+
     user = new User();
     user.setId(1L);
+    user.setEmail("test@gmail.com");
+    user.setFirstName("Test");
+    user.setLastName("Test");
+    user.setRoles(Arrays.asList(employee));
+    user.setIsActive(true);
 
     project = new Project();
     project.setId(1L);
@@ -156,7 +169,10 @@ class WorkLogServiceImplTest {
     updateWorkLog.setHours(workLog1.getHours());
     updateWorkLog.setTopic(workLog1.getTopic());
     updateWorkLog.setDescription("New description");
+    updateWorkLog.setUser(user);
+    updateWorkLog.setProject(project);
 
+    when(projectRepository.findById(anyLong())).thenReturn(Optional.of(project));
     when(workLogRepository.save(any(WorkLog.class))).thenReturn(workLog1);
 
     //when
