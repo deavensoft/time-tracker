@@ -59,7 +59,7 @@ public class WorkLogServiceImpl implements WorkLogService {
     if (valid(workLog)) {
       return workLogRepository.save(workLog);
     } else {
-      throw new IllegalArgumentException("Cannot crate worklog! Worklog data not valid");
+      throw new IllegalArgumentException("Cannot update worklog! Worklog data not valid");
     }
   }
 

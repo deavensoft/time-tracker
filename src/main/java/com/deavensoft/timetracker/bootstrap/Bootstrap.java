@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 
-@Component
+//@Component
 public class Bootstrap implements CommandLineRunner {
 
   private final UserService userService;
@@ -37,7 +37,6 @@ public class Bootstrap implements CommandLineRunner {
   @Override
   public void run(String... args) throws Exception {
 
-    System.out.println("Here");
     Role manager = new Role();
     manager.setRole(Role.UserRole.MANAGER);
     Role employee = new Role();
