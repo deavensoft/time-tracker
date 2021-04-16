@@ -37,7 +37,8 @@ public class ProjectServiceImpl implements ProjectService {
                 .orElse(Collections.emptyList());
     }
 
-    @Override
+
+  @Override
     public Project createProject(Project project) {
         return projectRepository.save(project);
     }
@@ -82,6 +83,5 @@ public class ProjectServiceImpl implements ProjectService {
         }
 
     }
-
 
 }

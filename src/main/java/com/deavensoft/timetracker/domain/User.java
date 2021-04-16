@@ -1,10 +1,12 @@
 package com.deavensoft.timetracker.domain;
 
+import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity

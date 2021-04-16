@@ -2,6 +2,7 @@ package com.deavensoft.timetracker.service;
 
 import com.deavensoft.timetracker.domain.User;
 
+import com.deavensoft.timetracker.domain.jira.JiraUser;
 import java.util.List;
 
 public interface UserService {
@@ -17,4 +18,6 @@ public interface UserService {
     void deleteUser(Long id);
 
     List<User> getAllUsersByRoles(String roles);
+
+
 }

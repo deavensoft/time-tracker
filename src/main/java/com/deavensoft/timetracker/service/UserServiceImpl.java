@@ -1,7 +1,8 @@
 package com.deavensoft.timetracker.service;
 
 import com.deavensoft.timetracker.domain.User;
-import com.deavensoft.timetracker.domain.WorkLog;
+import com.deavensoft.timetracker.domain.jira.JiraUser;
+import com.deavensoft.timetracker.repository.JiraUserRepository;
 import com.deavensoft.timetracker.repository.UserRepository;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,5 +55,6 @@ public class UserServiceImpl implements UserService {
     public List<User> getAllUsersByRoles(String role) {
         return userRepository.findAllByUserRole(role);
     }
+
 
 }
