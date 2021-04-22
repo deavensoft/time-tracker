@@ -1,6 +1,6 @@
-package com.deavensoft.timetracker.service.jira;
+package com.deavensoft.timetracker.integration.jira.service;
 
-import com.deavensoft.timetracker.domain.jira.JiraProject;
+import com.deavensoft.timetracker.integration.jira.domain.JiraProject;
 import com.deavensoft.timetracker.domain.Project;
 import com.deavensoft.timetracker.repository.JiraProjectRepository;
 import com.deavensoft.timetracker.service.ProjectService;
@@ -23,11 +23,15 @@ public class JiraProjectServiceImpl implements JiraProjectService {
     try{
       project = projectService.getProjectById(id);
     }catch (IllegalArgumentException e){
-      project = new Project();
-      project.setName(jiraProject.getName());
-      project = projectService.createProject(project);
+      project = createProjectWithJiraProjectName(jiraProject);
     }
     jiraProject.setProject(project);
     return jiraProjectRepository.save(jiraProject);
+  }
+
+  private Project createProjectWithJiraProjectName(JiraProject jiraProject){
+    Project project = new Project();
+    project.setName(jiraProject.getName());
+    return projectService.createProject(project);
   }
 }

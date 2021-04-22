@@ -1,6 +1,6 @@
-package com.deavensoft.timetracker.service.jira;
+package com.deavensoft.timetracker.integration.jira.service;
 
-import com.deavensoft.timetracker.domain.jira.JiraUser;
+import com.deavensoft.timetracker.integration.jira.domain.JiraUser;
 import com.deavensoft.timetracker.domain.User;
 import com.deavensoft.timetracker.repository.JiraUserRepository;
 import com.deavensoft.timetracker.service.UserService;
@@ -19,14 +19,18 @@ public class JiraUserServiceImpl implements JiraUserService {
     try{
       user = userService.getUserById(id);
     }catch (IllegalArgumentException e){
-      user = new User();
-      user.setFirstName(jiraUser.getName());
-      user.setLastName("");
-      user.setIsActive(true);
-      user = userService.createUser(user);
+      user = createUserWithJiraUserName(jiraUser);
     }
     jiraUser.setUser(user);
     return jiraUserRepository.save(jiraUser);
+  }
+
+  private User createUserWithJiraUserName(JiraUser jiraUser){
+    User user = new User();
+    user.setFirstName(jiraUser.getName());
+    user.setLastName("");
+    user.setIsActive(true);
+    return userService.createUser(user);
   }
 
   @Override

@@ -1,15 +1,12 @@
-package com.deavensoft.timetracker.service;
+package com.deavensoft.timetracker.integration.jira.service;
 
-import com.deavensoft.timetracker.domain.jira.JiraProject;
-import com.deavensoft.timetracker.domain.jira.JiraUser;
-import com.deavensoft.timetracker.domain.jira.JiraWorkLog;
+import com.deavensoft.timetracker.integration.jira.domain.JiraProject;
+import com.deavensoft.timetracker.integration.jira.domain.JiraUser;
+import com.deavensoft.timetracker.integration.jira.domain.JiraWorkLog;
 import com.deavensoft.timetracker.domain.WorkLog;
 import com.deavensoft.timetracker.exception.JiraNotFoundException;
 import com.deavensoft.timetracker.repository.WorkLogRepository;
-import com.deavensoft.timetracker.service.io.Importer;
-import com.deavensoft.timetracker.service.jira.JiraProjectService;
-import com.deavensoft.timetracker.service.jira.JiraUserService;
-import java.io.IOException;
+import com.deavensoft.timetracker.service.io.ExcelExtractor;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,17 +17,17 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @AllArgsConstructor
-public class ImporterServiceImpl implements ImporterService {
+public class JiraImporterServiceImpl implements JiraImporterService {
 
-  private final Importer importer;
+  private final ExcelExtractor excelExtractor;
   private final JiraUserService jiraUserService;
   private final JiraProjectService jiraProjectService;
   private final WorkLogRepository workLogRepository;
 
 
   @Override
-  public void importExcel(InputStream inputStream) throws IOException, JiraNotFoundException {
-    Map<String, List<JiraWorkLog>> listMap = importer.extractExcel(inputStream);
+  public void importExcel(InputStream inputStream)throws JiraNotFoundException {
+    Map<String, List<JiraWorkLog>> listMap = excelExtractor.extractExcel(inputStream);
     List<String> listOfErrors = validate(listMap);
     if (!listOfErrors.isEmpty()) {
       throw new JiraNotFoundException(listOfErrors.stream().reduce((s, s2) -> s + s2).get());

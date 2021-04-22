@@ -1,15 +1,13 @@
-package com.deavensoft.timetracker.service.jira;
+package com.deavensoft.timetracker.integration.jira.service;
 
 import com.deavensoft.timetracker.domain.Project;
 import com.deavensoft.timetracker.domain.Role;
 import com.deavensoft.timetracker.domain.Role.UserRole;
 import com.deavensoft.timetracker.domain.User;
-import com.deavensoft.timetracker.domain.jira.JiraProject;
-import com.deavensoft.timetracker.domain.jira.JiraUser;
+import com.deavensoft.timetracker.integration.jira.domain.JiraProject;
 import com.deavensoft.timetracker.repository.JiraProjectRepository;
 import com.deavensoft.timetracker.service.ProjectService;
 import java.util.Arrays;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

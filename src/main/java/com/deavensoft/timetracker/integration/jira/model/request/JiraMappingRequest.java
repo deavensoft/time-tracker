@@ -1,4 +1,4 @@
-package com.deavensoft.timetracker.api.model.request;
+package com.deavensoft.timetracker.integration.jira.model.request;
 
 import java.util.Map;
 import lombok.Data;

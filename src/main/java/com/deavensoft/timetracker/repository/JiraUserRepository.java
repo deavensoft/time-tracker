@@ -1,6 +1,6 @@
 package com.deavensoft.timetracker.repository;
 
-import com.deavensoft.timetracker.domain.jira.JiraUser;
+import com.deavensoft.timetracker.integration.jira.domain.JiraUser;
 import org.springframework.data.repository.CrudRepository;
 
 public interface JiraUserRepository extends CrudRepository<JiraUser, Long> {

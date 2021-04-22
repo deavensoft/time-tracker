@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 
-@Component
+//@Component
 public class Bootstrap implements CommandLineRunner {
 
   private final UserService userService;

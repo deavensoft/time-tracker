@@ -1,9 +1,9 @@
-package com.deavensoft.timetracker.service.io;
+package com.deavensoft.timetracker.integration.jira.service.io;
 
-import com.deavensoft.timetracker.domain.jira.JiraProject;
-import com.deavensoft.timetracker.domain.jira.JiraWorkLog;
-import com.deavensoft.timetracker.domain.jira.JiraUser;
-import java.io.FileNotFoundException;
+import com.deavensoft.timetracker.integration.jira.domain.JiraProject;
+import com.deavensoft.timetracker.integration.jira.domain.JiraWorkLog;
+import com.deavensoft.timetracker.integration.jira.domain.JiraUser;
+import com.deavensoft.timetracker.service.io.ExcelExtractor;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDate;
@@ -23,14 +23,14 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 @Slf4j
 @AllArgsConstructor
-public class ExcelImporter implements Importer {
+public class JiraExcelExtractor implements ExcelExtractor {
 
   private enum CellEnum {
     USER, PROJECT, SUMMARY, WORKLOG_STARTED, WORKLOG_CREATED, WORKLOG_HOURS, DESCRIPTION
   }
 
   @Override
-  public Map<String, List<JiraWorkLog>> extractExcel(InputStream inputStream) throws IOException {
+  public Map<String, List<JiraWorkLog>> extractExcel(InputStream inputStream) {
     Map<String, List<JiraWorkLog>> workLogMap = new HashMap<>();
 
     try (InputStream excelFile = inputStream) {
@@ -75,7 +75,7 @@ public class ExcelImporter implements Importer {
         workLogMap.get(jiraUser.getName()).add(workLog);
       }
     } catch (IOException e) {
-      e.printStackTrace();
+      log.error(e.getMessage());
     }
     return workLogMap;
   }

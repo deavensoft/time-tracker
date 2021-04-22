@@ -2,15 +2,12 @@ package com.deavensoft.timetracker.service;
 
 import com.deavensoft.timetracker.domain.Project;
 import com.deavensoft.timetracker.domain.Role;
-import com.deavensoft.timetracker.domain.Role.UserRole;
 import com.deavensoft.timetracker.domain.User;
 import com.deavensoft.timetracker.domain.WorkLog;
 import com.deavensoft.timetracker.repository.ProjectRepository;
 import com.deavensoft.timetracker.repository.UserRepository;
 import com.deavensoft.timetracker.repository.WorkLogRepository;
 import java.util.Collections;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -21,8 +18,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;

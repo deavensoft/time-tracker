@@ -1,6 +1,6 @@
-package com.deavensoft.timetracker.service.jira;
+package com.deavensoft.timetracker.integration.jira.service;
 
-import com.deavensoft.timetracker.domain.jira.JiraUser;
+import com.deavensoft.timetracker.integration.jira.domain.JiraUser;
 
 public interface JiraUserService {
 

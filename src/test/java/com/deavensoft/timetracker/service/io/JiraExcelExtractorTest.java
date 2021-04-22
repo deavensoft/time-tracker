@@ -1,43 +1,29 @@
 package com.deavensoft.timetracker.service.io;
 
-import com.deavensoft.timetracker.domain.jira.JiraProject;
-import com.deavensoft.timetracker.domain.jira.JiraUser;
-import com.deavensoft.timetracker.domain.jira.JiraWorkLog;
-import com.deavensoft.timetracker.service.ProjectService;
-import com.deavensoft.timetracker.service.UserService;
-import com.deavensoft.timetracker.service.WorkLogService;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
+import com.deavensoft.timetracker.integration.jira.domain.JiraProject;
+import com.deavensoft.timetracker.integration.jira.domain.JiraUser;
+import com.deavensoft.timetracker.integration.jira.domain.JiraWorkLog;
+import com.deavensoft.timetracker.integration.jira.service.io.JiraExcelExtractor;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.slf4j.Logger;
 
-class ExcelImporterTest {
+class JiraExcelExtractorTest {
 
   @InjectMocks
-  ExcelImporter excelImporter;
+  JiraExcelExtractor excelImporter;
 
   File excelFile;
   String date = "4/1/2021";

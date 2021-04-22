@@ -1,8 +1,8 @@
-package com.deavensoft.timetracker.service;
+package com.deavensoft.timetracker.integration.jira.service;
 
-import com.deavensoft.timetracker.domain.jira.JiraProject;
-import com.deavensoft.timetracker.domain.jira.JiraUser;
-import com.deavensoft.timetracker.domain.jira.JiraWorkLog;
+import com.deavensoft.timetracker.integration.jira.domain.JiraProject;
+import com.deavensoft.timetracker.integration.jira.domain.JiraUser;
+import com.deavensoft.timetracker.integration.jira.domain.JiraWorkLog;
 import com.deavensoft.timetracker.domain.Project;
 import com.deavensoft.timetracker.domain.Role;
 import com.deavensoft.timetracker.domain.Role.UserRole;
@@ -10,9 +10,7 @@ import com.deavensoft.timetracker.domain.User;
 import com.deavensoft.timetracker.domain.WorkLog;
 import com.deavensoft.timetracker.exception.JiraNotFoundException;
 import com.deavensoft.timetracker.repository.WorkLogRepository;
-import com.deavensoft.timetracker.service.io.Importer;
-import com.deavensoft.timetracker.service.jira.JiraProjectService;
-import com.deavensoft.timetracker.service.jira.JiraUserService;
+import com.deavensoft.timetracker.service.io.ExcelExtractor;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -25,7 +23,6 @@ import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.slf4j.Logger;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
@@ -33,22 +30,18 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
-class ImporterServiceImplTest {
+class JiraImporterServiceImplTest {
 
   @Mock
-  Importer importer;
+  ExcelExtractor excelExtractor;
   @Mock
   JiraUserService jiraUserService;
   @Mock
   JiraProjectService jiraProjectService;
   @Mock
   WorkLogRepository workLogRepository;
-  @Mock
-  ProjectService projectService;
-  @Mock
-  Logger log;
   @InjectMocks
-  ImporterServiceImpl importerServiceImpl;
+  JiraImporterServiceImpl jiraImporterServiceImpl;
 
   @Captor
   ArgumentCaptor<List<WorkLog>> workArgumentCaptor;
@@ -107,14 +100,14 @@ class ImporterServiceImplTest {
     jiraWorkLog2.setJiraUser(jiraUser2);
     jiraWorkLog2.setJiraProject(jiraProject);
 
-    when(importer.extractExcel(any())).thenReturn(new HashMap<String, List<JiraWorkLog>>() {{
+    when(excelExtractor.extractExcel(any())).thenReturn(new HashMap<String, List<JiraWorkLog>>() {{
       put("TestMe",
           Arrays.<JiraWorkLog>asList(jiraWorkLog));
       put("TestMe2",
           Arrays.<JiraWorkLog>asList(jiraWorkLog2));
     }});
 
-    importerServiceImpl.importExcel(null);
+    jiraImporterServiceImpl.importExcel(null);
 
     verify(workLogRepository).saveAll(workArgumentCaptor.capture());
     List<WorkLog> workLogs = workArgumentCaptor.getValue();
@@ -135,12 +128,12 @@ class ImporterServiceImplTest {
     jiraWorkLog2.setJiraProject(jiraProject);
 
     String jiraUserName = "NonExistent";
-    when(importer.extractExcel(any())).thenReturn(new HashMap<String, List<JiraWorkLog>>() {{
+    when(excelExtractor.extractExcel(any())).thenReturn(new HashMap<String, List<JiraWorkLog>>() {{
       put(jiraUserName,
           Arrays.<JiraWorkLog>asList(jiraWorkLog2));
     }});
      JiraNotFoundException jiraUserNotFoundException = assertThrows(JiraNotFoundException.class, () ->{
-      importerServiceImpl.importExcel(null);
+      jiraImporterServiceImpl.importExcel(null);
     });
      String expected = "Jira user with name: " + jiraUserName + " doesn't exist. ";
 
@@ -155,12 +148,12 @@ class ImporterServiceImplTest {
     jiraWorkLog2.setJiraProject(jiraProject);
 
     String jiraUserName = "TestMe2";
-    when(importer.extractExcel(any())).thenReturn(new HashMap<String, List<JiraWorkLog>>() {{
+    when(excelExtractor.extractExcel(any())).thenReturn(new HashMap<String, List<JiraWorkLog>>() {{
       put(jiraUserName,
           Arrays.<JiraWorkLog>asList(jiraWorkLog2));
     }});
     JiraNotFoundException jiraUserNotFoundException = assertThrows(JiraNotFoundException.class, () ->{
-      importerServiceImpl.importExcel(null);
+      jiraImporterServiceImpl.importExcel(null);
     });
     String expected = "Jira project with name: " + jiraWorkLog2.getJiraProject().getName() + " doesn't exist. ";
     assertEquals(expected, jiraUserNotFoundException.getMessage());

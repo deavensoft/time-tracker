@@ -1,4 +1,4 @@
-package com.deavensoft.timetracker.domain.jira;
+package com.deavensoft.timetracker.integration.jira.domain;
 
 import com.deavensoft.timetracker.domain.WorkLog;
 import java.time.LocalDate;
