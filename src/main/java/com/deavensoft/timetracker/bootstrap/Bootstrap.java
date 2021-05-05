@@ -50,7 +50,13 @@ public class Bootstrap implements CommandLineRunner {
     user.setEmail("email@gmail.com");
     user.setRoles(Arrays.asList(manager, employee, admin));
 
+    User user2 = new User();
+    user.setFirstName("Aleksandar");
+    user.setLastName("Ignjatovic");
+    user.setEmail("email@gmail.com");
+    user.setRoles(Arrays.asList(manager, employee, admin));
     userRepository.save(user);
+    userRepository.save(user2);
 
     Project project = new Project();
     project.setUsers(Arrays.asList(user));
