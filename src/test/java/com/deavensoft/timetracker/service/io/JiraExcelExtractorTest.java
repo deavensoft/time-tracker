@@ -46,6 +46,7 @@ class JiraExcelExtractorTest {
     JiraWorkLog jiraWorkLog = new JiraWorkLog();
     jiraWorkLog.setJiraUser(jiraUser);
     jiraWorkLog.setJiraProject(jiraProject);
+    jiraWorkLog.setTopic("Test");
     jiraWorkLog.setDate(LocalDate.parse(date, DateTimeFormatter.ofPattern("M/d/yyyy")));
     jiraWorkLog.setHours(6.0);
     jiraWorkLog.setDescription("Test");

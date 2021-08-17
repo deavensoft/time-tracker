@@ -9,6 +9,7 @@ import java.util.List;
 public class ProjectDto {
     private Long id;
     private String name;
+    private boolean isActive;
     private String description;
 
     private List<UserDto> users = new ArrayList<>();

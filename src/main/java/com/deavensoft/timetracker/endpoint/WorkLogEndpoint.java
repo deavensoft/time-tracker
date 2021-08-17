@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 @RequestMapping(WorkLogEndpoint.BASE_URL)
 @RequiredArgsConstructor
-@CrossOrigin(maxAge = 3600)
+@CrossOrigin(value = "*", maxAge = 3600)
 @RestController
 public class WorkLogEndpoint {
 
@@ -22,6 +22,7 @@ public class WorkLogEndpoint {
   public static final String DATE_FORMAT = "yyyy-MM-dd";
   private final WorkLogService workLogService;
   private final WorkLogMapper mapper;
+
 
   @GetMapping("/{id}")
   public WorkLogDto getWorkLog(@PathVariable Long id) {
@@ -70,6 +71,14 @@ public class WorkLogEndpoint {
         .collect(Collectors.toList());
   }
 
+  @GetMapping("/user/{userId}")
+  public List<WorkLogDto> getWorkLogsByUser(@PathVariable Long userId) {
+    return workLogService.getWorkLogByUser(userId)
+        .stream().map(mapper::workLogToWorkLogDto)
+        .collect(Collectors.toList());
+  }
+
+
   @GetMapping("/user/{userId}/{from}/{to}")
   public List<WorkLogDto> getWorkLogsBetweenDatesWithUser(@PathVariable Long userId,
       @PathVariable String from, @PathVariable String to) {
@@ -78,6 +87,14 @@ public class WorkLogEndpoint {
 
     return workLogService.getWorkLogsBetweenDatesWithUser(userId, fromDate, toDate)
         .stream().map(mapper::workLogToWorkLogDto)
+        .collect(Collectors.toList());
+  }
+
+  @GetMapping("/project/{projectId}/user/{userId}")
+  public List<WorkLogDto> getWorkLogsWithProject(@PathVariable Long projectId, @PathVariable Long userId) {
+    return workLogService
+        .getWorkLogAndProjectByIdAndUserById(projectId,userId).stream()
+        .map(mapper::workLogToWorkLogDto)
         .collect(Collectors.toList());
   }
 

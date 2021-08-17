@@ -13,18 +13,28 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-@RequiredArgsConstructor
 public class ProjectServiceImpl implements ProjectService {
 
     private final ProjectRepository projectRepository;
     private final UserRepository userRepository;
 
-    @Override
+  public ProjectServiceImpl(ProjectRepository projectRepository,
+      UserRepository userRepository) {
+    this.projectRepository = projectRepository;
+    this.userRepository = userRepository;
+  }
+
+  @Override
     public Project getProjectById(Long id) {
         return projectRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Project with ID = " + id + " does not exist!"));
     }
 
-    @Override
+  @Override
+  public List<Project> getProjectsWithUserById(Long userId) {
+    return projectRepository.findProjectAndUserById(userId);
+  }
+
+  @Override
     public List<Project> getAllProjects() {
         return StreamSupport.stream(projectRepository.findAll().spliterator(), false)
                 .collect(Collectors.toList());

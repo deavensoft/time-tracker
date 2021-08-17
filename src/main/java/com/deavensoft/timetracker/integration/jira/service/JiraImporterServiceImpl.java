@@ -15,8 +15,8 @@ import java.util.Map.Entry;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @AllArgsConstructor
+@Slf4j
 public class JiraImporterServiceImpl implements JiraImporterService {
 
   private final ExcelExtractor excelExtractor;

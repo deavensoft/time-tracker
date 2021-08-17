@@ -17,6 +17,8 @@ public interface UserRepository extends CrudRepository<User, Long> {
       nativeQuery = true)
   List<User> findAllByUserRole(String userRole);
 
+  @Query(value = "SELECT * FROM USER WHERE ID NOT IN (SELECT USER_ID FROM JIRA_USER)", nativeQuery = true)
+  List<User> findAllUnmappedUsers();
   @Query("select e from User e where e.firstName = ?1 and e.lastName = ?2")
   User findUserByFirstAndLastName(String firstName, String lastName);
   @Query("select e from User e where e.firstName like ?1 and e.lastName like ?2 ")

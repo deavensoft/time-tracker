@@ -10,6 +10,8 @@ public interface UserService {
 
     List<User> getAllUsers();
 
+    List<User> getAllUnmappedUsers();
+
     User createUser(User user);
 
     User updateUser(Long id, User user);

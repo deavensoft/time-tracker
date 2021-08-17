@@ -5,12 +5,14 @@ import com.deavensoft.timetracker.repository.UserRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import lombok.AllArgsConstructor;
 
-@AllArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+
+    public UserServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Override
     public User getUserById(Long id) {
@@ -23,6 +25,11 @@ public class UserServiceImpl implements UserService {
         userRepository.findAll().forEach(users::add);
 
         return users;
+    }
+
+    @Override
+    public List<User> getAllUnmappedUsers() {
+        return userRepository.findAllUnmappedUsers();
     }
 
     @Override
