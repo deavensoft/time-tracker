@@ -11,6 +11,8 @@ public interface ProjectService {
 
 	Project getProjectById(Long id);
 
+	List<Project> getProjectsWithUserById(Long userId);
+
 	List<Project> getAllProjects();
 
 	List<User> getAllUsersForProject(Long projectId);
@@ -22,6 +24,7 @@ public interface ProjectService {
 	void deleteProject(Long id);
 
 	Project addUserOnProject(Long id, Long userId);
+
 
 
 }

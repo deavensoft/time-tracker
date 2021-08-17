@@ -7,6 +7,8 @@ import com.deavensoft.timetracker.integration.jira.service.JiraImporterService;
 import com.deavensoft.timetracker.integration.jira.service.JiraProjectService;
 import com.deavensoft.timetracker.integration.jira.service.JiraUserService;
 import java.io.IOException;
+import java.lang.reflect.Array;
+import javax.lang.model.type.ArrayType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -20,7 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RequestMapping(ImportJiraEndpoint.BASE_URL)
 @RequiredArgsConstructor
-@CrossOrigin(maxAge = 3600)
+@CrossOrigin(value = "*", maxAge = 3600)
 @RestController
 @Slf4j
 public class ImportJiraEndpoint {

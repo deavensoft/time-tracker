@@ -54,6 +54,9 @@ public class JiraExcelExtractor implements ExcelExtractor {
               String projectName = currentCell.getStringCellValue().split("-")[0];
               jiraProject.setName(projectName);
               break;
+            case SUMMARY:
+              workLog.setTopic(currentCell.getStringCellValue());
+              break;
             case WORKLOG_STARTED:
               LocalDate date = currentCell.getDateCellValue().toInstant().atZone(ZoneId.systemDefault())
                   .toLocalDate();

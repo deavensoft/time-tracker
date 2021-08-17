@@ -1,0 +1,238 @@
+;             
+CREATE USER IF NOT EXISTS "SA" SALT 'decc4df4e58f5cd5' HASH '42c8eac10f2aba8c4666ec747038c16e8250018060264f0f128c881c9b66ed36' ADMIN;         
+CREATE SEQUENCE "PUBLIC"."SYSTEM_SEQUENCE_BA81DF6F_7590_4102_903C_06D8D117238D" START WITH 65 BELONGS_TO_TABLE;               
+CREATE SEQUENCE "PUBLIC"."SYSTEM_SEQUENCE_D59A6575_1BC7_4F54_A0FB_4B45812FD6E6" START WITH 33 BELONGS_TO_TABLE;               
+CREATE SEQUENCE "PUBLIC"."SYSTEM_SEQUENCE_F80A2E4C_E190_4B1B_A5E7_9D55046D9E9F" START WITH 33 BELONGS_TO_TABLE;               
+CREATE SEQUENCE "PUBLIC"."SYSTEM_SEQUENCE_6F9F37E3_D0D7_499A_A053_B54F46F40397" START WITH 65 BELONGS_TO_TABLE;               
+CREATE SEQUENCE "PUBLIC"."SYSTEM_SEQUENCE_24ACF694_A827_43E2_921D_88A5DF9B8FAD" START WITH 65 BELONGS_TO_TABLE;               
+CREATE CACHED TABLE "PUBLIC"."JIRA_PROJECT"(
+    "ID" BIGINT DEFAULT NEXT VALUE FOR "PUBLIC"."SYSTEM_SEQUENCE_D59A6575_1BC7_4F54_A0FB_4B45812FD6E6" NOT NULL NULL_TO_DEFAULT SEQUENCE "PUBLIC"."SYSTEM_SEQUENCE_D59A6575_1BC7_4F54_A0FB_4B45812FD6E6",
+    "NAME" VARCHAR(255),
+    "PROJECT_ID" BIGINT
+);
+ALTER TABLE "PUBLIC"."JIRA_PROJECT" ADD CONSTRAINT "PUBLIC"."CONSTRAINT_3" PRIMARY KEY("ID"); 
+-- 3 +/- SELECT COUNT(*) FROM PUBLIC.JIRA_PROJECT;            
+INSERT INTO "PUBLIC"."JIRA_PROJECT" VALUES(1, 'ISYSTEM', 33); 
+INSERT INTO "PUBLIC"."JIRA_PROJECT" VALUES(2, 'ISIS', 34);    
+INSERT INTO "PUBLIC"."JIRA_PROJECT" VALUES(3, 'IS', 35);      
+CREATE CACHED TABLE "PUBLIC"."JIRA_USER"(
+    "ID" BIGINT DEFAULT NEXT VALUE FOR "PUBLIC"."SYSTEM_SEQUENCE_F80A2E4C_E190_4B1B_A5E7_9D55046D9E9F" NOT NULL NULL_TO_DEFAULT SEQUENCE "PUBLIC"."SYSTEM_SEQUENCE_F80A2E4C_E190_4B1B_A5E7_9D55046D9E9F",
+    "NAME" VARCHAR(255),
+    "USER_ID" BIGINT
+);      
+ALTER TABLE "PUBLIC"."JIRA_USER" ADD CONSTRAINT "PUBLIC"."CONSTRAINT_E" PRIMARY KEY("ID");    
+-- 9 +/- SELECT COUNT(*) FROM PUBLIC.JIRA_USER;               
+INSERT INTO "PUBLIC"."JIRA_USER" VALUES(1, 'AI', 1);          
+INSERT INTO "PUBLIC"."JIRA_USER" VALUES(2, 'A.Ignjatovic', 1);
+INSERT INTO "PUBLIC"."JIRA_USER" VALUES(3, 'aca', 1);         
+INSERT INTO "PUBLIC"."JIRA_USER" VALUES(4, 'aleksandar.Ignjatovic', 1);       
+INSERT INTO "PUBLIC"."JIRA_USER" VALUES(5, 'AV', 33);         
+INSERT INTO "PUBLIC"."JIRA_USER" VALUES(6, 'Aleksandra Vujadinovic', 34);     
+INSERT INTO "PUBLIC"."JIRA_USER" VALUES(7, 'Drazen Nikolic', 35);             
+INSERT INTO "PUBLIC"."JIRA_USER" VALUES(8, 'pavle.bursac', 36);               
+INSERT INTO "PUBLIC"."JIRA_USER" VALUES(9, 'Nemanja Jocic', 37);              
+CREATE CACHED TABLE "PUBLIC"."PROJECT"(
+    "ID" BIGINT DEFAULT NEXT VALUE FOR "PUBLIC"."SYSTEM_SEQUENCE_6F9F37E3_D0D7_499A_A053_B54F46F40397" NOT NULL NULL_TO_DEFAULT SEQUENCE "PUBLIC"."SYSTEM_SEQUENCE_6F9F37E3_D0D7_499A_A053_B54F46F40397",
+    "DESCRIPTION" VARCHAR(255),
+    "IS_ACTIVE" BOOLEAN,
+    "NAME" VARCHAR(255)
+);    
+ALTER TABLE "PUBLIC"."PROJECT" ADD CONSTRAINT "PUBLIC"."CONSTRAINT_1" PRIMARY KEY("ID");      
+-- 4 +/- SELECT COUNT(*) FROM PUBLIC.PROJECT; 
+INSERT INTO "PUBLIC"."PROJECT" VALUES(1, 'desc', TRUE, 'name');               
+INSERT INTO "PUBLIC"."PROJECT" VALUES(33, NULL, TRUE, 'ISYSTEM');             
+INSERT INTO "PUBLIC"."PROJECT" VALUES(34, NULL, TRUE, 'ISIS');
+INSERT INTO "PUBLIC"."PROJECT" VALUES(35, NULL, TRUE, 'IS');  
+CREATE CACHED TABLE "PUBLIC"."USER_NAME"(
+    "FIRST_NAME" VARCHAR(255) NOT NULL,
+    "LAST_NAME" VARCHAR(255) NOT NULL,
+    "USER_ID" BIGINT
+);          
+ALTER TABLE "PUBLIC"."USER_NAME" ADD CONSTRAINT "PUBLIC"."CONSTRAINT_B" PRIMARY KEY("FIRST_NAME", "LAST_NAME");               
+-- 0 +/- SELECT COUNT(*) FROM PUBLIC.USER_NAME;               
+CREATE CACHED TABLE "PUBLIC"."PROJECT_USERS"(
+    "PROJECT_ID" BIGINT NOT NULL,
+    "USER_ID" BIGINT NOT NULL
+);           
+-- 64 +/- SELECT COUNT(*) FROM PUBLIC.PROJECT_USERS;          
+INSERT INTO "PUBLIC"."PROJECT_USERS" VALUES(1, 1);            
+INSERT INTO "PUBLIC"."PROJECT_USERS" VALUES(33, 1);           
+INSERT INTO "PUBLIC"."PROJECT_USERS" VALUES(33, 34);          
+INSERT INTO "PUBLIC"."PROJECT_USERS" VALUES(33, 34);          
+INSERT INTO "PUBLIC"."PROJECT_USERS" VALUES(33, 34);          
+INSERT INTO "PUBLIC"."PROJECT_USERS" VALUES(33, 34);          
+INSERT INTO "PUBLIC"."PROJECT_USERS" VALUES(33, 34);          
+INSERT INTO "PUBLIC"."PROJECT_USERS" VALUES(33, 34);          
+INSERT INTO "PUBLIC"."PROJECT_USERS" VALUES(33, 34);          
+INSERT INTO "PUBLIC"."PROJECT_USERS" VALUES(33, 34);          
+INSERT INTO "PUBLIC"."PROJECT_USERS" VALUES(33, 34);          
+INSERT INTO "PUBLIC"."PROJECT_USERS" VALUES(33, 34);          
+INSERT INTO "PUBLIC"."PROJECT_USERS" VALUES(33, 34);          
+INSERT INTO "PUBLIC"."PROJECT_USERS" VALUES(33, 34);          
+INSERT INTO "PUBLIC"."PROJECT_USERS" VALUES(33, 34);          
+INSERT INTO "PUBLIC"."PROJECT_USERS" VALUES(33, 35);          
+INSERT INTO "PUBLIC"."PROJECT_USERS" VALUES(33, 35);          
+INSERT INTO "PUBLIC"."PROJECT_USERS" VALUES(33, 35);          
+INSERT INTO "PUBLIC"."PROJECT_USERS" VALUES(33, 35);          
+INSERT INTO "PUBLIC"."PROJECT_USERS" VALUES(33, 35);          
+INSERT INTO "PUBLIC"."PROJECT_USERS" VALUES(33, 35);          
+INSERT INTO "PUBLIC"."PROJECT_USERS" VALUES(33, 35);          
+INSERT INTO "PUBLIC"."PROJECT_USERS" VALUES(33, 35);          
+INSERT INTO "PUBLIC"."PROJECT_USERS" VALUES(33, 35);          
+INSERT INTO "PUBLIC"."PROJECT_USERS" VALUES(33, 35);          
+INSERT INTO "PUBLIC"."PROJECT_USERS" VALUES(33, 35);          
+INSERT INTO "PUBLIC"."PROJECT_USERS" VALUES(33, 35);          
+INSERT INTO "PUBLIC"."PROJECT_USERS" VALUES(33, 35);          
+INSERT INTO "PUBLIC"."PROJECT_USERS" VALUES(33, 35);          
+INSERT INTO "PUBLIC"."PROJECT_USERS" VALUES(33, 35);          
+INSERT INTO "PUBLIC"."PROJECT_USERS" VALUES(33, 35);          
+INSERT INTO "PUBLIC"."PROJECT_USERS" VALUES(33, 35);          
+INSERT INTO "PUBLIC"."PROJECT_USERS" VALUES(33, 35);          
+INSERT INTO "PUBLIC"."PROJECT_USERS" VALUES(33, 35);          
+INSERT INTO "PUBLIC"."PROJECT_USERS" VALUES(33, 35);          
+INSERT INTO "PUBLIC"."PROJECT_USERS" VALUES(33, 35);          
+INSERT INTO "PUBLIC"."PROJECT_USERS" VALUES(33, 35);          
+INSERT INTO "PUBLIC"."PROJECT_USERS" VALUES(33, 35);          
+INSERT INTO "PUBLIC"."PROJECT_USERS" VALUES(33, 35);          
+INSERT INTO "PUBLIC"."PROJECT_USERS" VALUES(33, 35);          
+INSERT INTO "PUBLIC"."PROJECT_USERS" VALUES(33, 35);          
+INSERT INTO "PUBLIC"."PROJECT_USERS" VALUES(33, 35);          
+INSERT INTO "PUBLIC"."PROJECT_USERS" VALUES(33, 35);          
+INSERT INTO "PUBLIC"."PROJECT_USERS" VALUES(33, 1);           
+INSERT INTO "PUBLIC"."PROJECT_USERS" VALUES(33, 36);          
+INSERT INTO "PUBLIC"."PROJECT_USERS" VALUES(33, 36);          
+INSERT INTO "PUBLIC"."PROJECT_USERS" VALUES(33, 36);          
+INSERT INTO "PUBLIC"."PROJECT_USERS" VALUES(33, 36);          
+INSERT INTO "PUBLIC"."PROJECT_USERS" VALUES(33, 36);          
+INSERT INTO "PUBLIC"."PROJECT_USERS" VALUES(33, 36);          
+INSERT INTO "PUBLIC"."PROJECT_USERS" VALUES(33, 36);          
+INSERT INTO "PUBLIC"."PROJECT_USERS" VALUES(33, 36);          
+INSERT INTO "PUBLIC"."PROJECT_USERS" VALUES(33, 36);          
+INSERT INTO "PUBLIC"."PROJECT_USERS" VALUES(33, 36);          
+INSERT INTO "PUBLIC"."PROJECT_USERS" VALUES(33, 36);          
+INSERT INTO "PUBLIC"."PROJECT_USERS" VALUES(33, 37);          
+INSERT INTO "PUBLIC"."PROJECT_USERS" VALUES(33, 37);          
+INSERT INTO "PUBLIC"."PROJECT_USERS" VALUES(33, 37);          
+INSERT INTO "PUBLIC"."PROJECT_USERS" VALUES(33, 37);          
+INSERT INTO "PUBLIC"."PROJECT_USERS" VALUES(33, 37);          
+INSERT INTO "PUBLIC"."PROJECT_USERS" VALUES(33, 37);          
+INSERT INTO "PUBLIC"."PROJECT_USERS" VALUES(33, 37);          
+INSERT INTO "PUBLIC"."PROJECT_USERS" VALUES(33, 37);          
+INSERT INTO "PUBLIC"."PROJECT_USERS" VALUES(33, 37);          
+CREATE CACHED TABLE "PUBLIC"."USER"(
+    "ID" BIGINT DEFAULT NEXT VALUE FOR "PUBLIC"."SYSTEM_SEQUENCE_24ACF694_A827_43E2_921D_88A5DF9B8FAD" NOT NULL NULL_TO_DEFAULT SEQUENCE "PUBLIC"."SYSTEM_SEQUENCE_24ACF694_A827_43E2_921D_88A5DF9B8FAD",
+    "EMAIL" VARCHAR(255),
+    "FIRST_NAME" VARCHAR(255),
+    "IS_ACTIVE" BOOLEAN,
+    "LAST_NAME" VARCHAR(255)
+);        
+ALTER TABLE "PUBLIC"."USER" ADD CONSTRAINT "PUBLIC"."CONSTRAINT_2" PRIMARY KEY("ID");         
+-- 6 +/- SELECT COUNT(*) FROM PUBLIC.USER;    
+INSERT INTO "PUBLIC"."USER" VALUES(1, 'admin@gmail.com', 'admin', TRUE, 'admin');             
+INSERT INTO "PUBLIC"."USER" VALUES(33, NULL, 'AV', TRUE, ''); 
+INSERT INTO "PUBLIC"."USER" VALUES(34, NULL, 'Aleksandra Vujadinovic', TRUE, '');             
+INSERT INTO "PUBLIC"."USER" VALUES(35, NULL, 'Drazen Nikolic', TRUE, '');     
+INSERT INTO "PUBLIC"."USER" VALUES(36, NULL, 'pavle.bursac', TRUE, '');       
+INSERT INTO "PUBLIC"."USER" VALUES(37, NULL, 'Nemanja Jocic', TRUE, '');      
+CREATE CACHED TABLE "PUBLIC"."USER_ROLES"(
+    "USER_ID" BIGINT NOT NULL,
+    "ROLE" VARCHAR(255)
+);       
+-- 3 +/- SELECT COUNT(*) FROM PUBLIC.USER_ROLES;              
+INSERT INTO "PUBLIC"."USER_ROLES" VALUES(1, 'MANAGER');       
+INSERT INTO "PUBLIC"."USER_ROLES" VALUES(1, 'EMPLOYEE');      
+INSERT INTO "PUBLIC"."USER_ROLES" VALUES(1, 'ADMIN');         
+CREATE CACHED TABLE "PUBLIC"."WORK_LOG"(
+    "ID" BIGINT DEFAULT NEXT VALUE FOR "PUBLIC"."SYSTEM_SEQUENCE_BA81DF6F_7590_4102_903C_06D8D117238D" NOT NULL NULL_TO_DEFAULT SEQUENCE "PUBLIC"."SYSTEM_SEQUENCE_BA81DF6F_7590_4102_903C_06D8D117238D",
+    "DATE" DATE NOT NULL,
+    "DESCRIPTION" VARCHAR(255),
+    "HOURS" DOUBLE NOT NULL,
+    "TOPIC" VARCHAR(255),
+    "PROJECT_ID" BIGINT NOT NULL,
+    "USER_ID" BIGINT NOT NULL
+);
+ALTER TABLE "PUBLIC"."WORK_LOG" ADD CONSTRAINT "PUBLIC"."CONSTRAINT_30" PRIMARY KEY("ID");    
+-- 63 +/- SELECT COUNT(*) FROM PUBLIC.WORK_LOG;               
+INSERT INTO "PUBLIC"."WORK_LOG" VALUES(1, DATE '2021-04-12', 'iSystem job and sql preparation', 8.0, 'Adapt the status of Webcam Offers depending on the picture file hash', 33, 1);          
+INSERT INTO "PUBLIC"."WORK_LOG" VALUES(2, DATE '2021-04-01', 'Analyzed what causes Error in import message preparation: null.', 6.0, 'Interface to jobs.ch', 33, 34);         
+INSERT INTO "PUBLIC"."WORK_LOG" VALUES(3, DATE '2021-04-02', 'Set the import. ', 5.0, 'Setup / validate xml import for Nendaz Tourism', 33, 34);              
+INSERT INTO "PUBLIC"."WORK_LOG" VALUES(4, DATE '2021-04-02', STRINGDECODE('Analyzed what causes \u201cGeneric error during jobs_ch_v2 import\\!\u201d after removing the limits for deletions.'), 3.0, 'Interface to jobs.ch', 33, 34);       
+INSERT INTO "PUBLIC"."WORK_LOG" VALUES(5, DATE '2021-04-05', 'Bug fix. ', 8.0, 'Interface to jobs.ch', 33, 34);               
+INSERT INTO "PUBLIC"."WORK_LOG" VALUES(6, DATE '2021-04-06', 'Bug fix. ', 10.0, 'Interface to jobs.ch', 33, 34);              
+INSERT INTO "PUBLIC"."WORK_LOG" VALUES(7, DATE '2021-04-06', 'Deployed new version on DEMO. ', 1.0, 'Setup / validate xml import for Nendaz Tourism', 33, 34);
+INSERT INTO "PUBLIC"."WORK_LOG" VALUES(8, DATE '2021-04-07', 'Bug fix.', 10.0, 'Implement and Setup new Import Interface for museums.ch-exhibitions', 33, 34);
+INSERT INTO "PUBLIC"."WORK_LOG" VALUES(9, DATE '2021-04-07', 'Bug fix. ', 4.0, 'Interface to jobs.ch', 33, 34);               
+INSERT INTO "PUBLIC"."WORK_LOG" VALUES(10, DATE '2021-04-08', 'Bug fix. ', 5.0, 'Implement and Setup new Import Interface for museums.ch-exhibitions', 33, 34);               
+INSERT INTO "PUBLIC"."WORK_LOG" VALUES(11, DATE '2021-04-08', 'Implemented 1) and 2).', 0.5, 'Setup / validate xml import for Nendaz Tourism', 33, 34);       
+INSERT INTO "PUBLIC"."WORK_LOG" VALUES(12, DATE '2021-04-08', 'Bug fix.', 3.0, 'Interface to jobs.ch', 33, 34);               
+INSERT INTO "PUBLIC"."WORK_LOG" VALUES(13, DATE '2021-04-08', 'Reported bug. ', 0.5, 'All offer details related to one offer are separate offer', 33, 34);    
+INSERT INTO "PUBLIC"."WORK_LOG" VALUES(14, DATE '2021-04-09', 'Code refactoring. ', 5.5, 'Interface to outdooractive', 33, 34);               
+INSERT INTO "PUBLIC"."WORK_LOG" VALUES(15, DATE '2021-04-01', 'Team coordination and consulting.', 1.0, 'Project management (time-tracking)', 33, 35);        
+INSERT INTO "PUBLIC"."WORK_LOG" VALUES(16, DATE '2021-04-01', 'Know-how sharing session.', 0.5, 'Knowledge transfer/pairing (time-tracking)', 33, 35);        
+INSERT INTO "PUBLIC"."WORK_LOG" VALUES(17, DATE '2021-04-01', 'Project introduction for Pavle.', 3.0, 'Knowledge transfer/pairing (time-tracking)', 33, 35);  
+INSERT INTO "PUBLIC"."WORK_LOG" VALUES(18, DATE '2021-04-02', 'Code reviews.', 3.0, 'Code review  (time-tracking)', 33, 35);  
+INSERT INTO "PUBLIC"."WORK_LOG" VALUES(19, DATE '2021-04-02', 'Team coordination and consulting.', 2.0, 'Project management (time-tracking)', 33, 35);        
+INSERT INTO "PUBLIC"."WORK_LOG" VALUES(20, DATE '2021-04-02', 'Project introduction for Pavle.', 2.0, 'Knowledge transfer/pairing (time-tracking)', 33, 35);  
+INSERT INTO "PUBLIC"."WORK_LOG" VALUES(21, DATE '2021-04-05', 'Final changes and testing for moving Cyclone to Docker server. Reindexing with a temp system instance.', 6.0, 'Move iSystemCyclone to Docker server', 33, 35); 
+INSERT INTO "PUBLIC"."WORK_LOG" VALUES(22, DATE '2021-04-05', 'PROD deploy. Moving Cyclone to the Docker server.', 2.0, 'Deployment (time-tracking)', 33, 35);
+INSERT INTO "PUBLIC"."WORK_LOG" VALUES(23, DATE '2021-04-05', 'Sync meeting with Miroslav.', 1.0, 'Meeting (time-tracking)', 33, 35);         
+INSERT INTO "PUBLIC"."WORK_LOG" VALUES(24, DATE '2021-04-06', 'Technical explanation of the projects in order that Pavle can start working on this issue.', 2.0, 'Adapt the status of Webcam Offers depending on the picture file hash', 33, 35);             
+INSERT INTO "PUBLIC"."WORK_LOG" VALUES(25, DATE '2021-04-06', 'Team coordination and consulting.', 1.0, 'Project management (time-tracking)', 33, 35);        
+INSERT INTO "PUBLIC"."WORK_LOG" VALUES(26, DATE '2021-04-06', 'Cronjob for auto restarting Form capture bot docker container.', 1.0, 'form-capture-bot creates zombie processes', 33, 35);    
+INSERT INTO "PUBLIC"."WORK_LOG" VALUES(27, DATE '2021-04-07', 'Analyzing the issue in the local environment.', 4.0, 'Must-Criteria not working', 33, 35);     
+INSERT INTO "PUBLIC"."WORK_LOG" VALUES(28, DATE '2021-04-07', 'Updating configurations in the application and deploy scripts.', 1.0, 'guidle BJN with corrupted design', 33, 35);             
+INSERT INTO "PUBLIC"."WORK_LOG" VALUES(29, DATE '2021-04-08', 'Implementing changes.', 3.0, 'Detailpage for "Werke"', 33, 35);
+INSERT INTO "PUBLIC"."WORK_LOG" VALUES(30, DATE '2021-04-08', 'Further explaining the project and the current task to Pavle.', 2.0, 'Knowledge transfer/pairing (time-tracking)', 33, 35);    
+INSERT INTO "PUBLIC"."WORK_LOG" VALUES(31, DATE '2021-04-08', 'Updates to the form.', 1.0, 'Additional fast track form template', 33, 35);    
+INSERT INTO "PUBLIC"."WORK_LOG" VALUES(32, DATE '2021-04-08', 'PROD deploy.', 0.5, 'Deployment (time-tracking)', 33, 35);     
+INSERT INTO "PUBLIC"."WORK_LOG" VALUES(33, DATE '2021-04-09', 'Fixing the configuration and deploying to PROD.', 0.5, 'Resultpage for "Werke"', 33, 35);      
+INSERT INTO "PUBLIC"."WORK_LOG" VALUES(34, DATE '2021-04-09', 'Analyzed the problem with Nemanja.', 0.5, 'Wrong backgroundcolor on news page', 33, 35);       
+INSERT INTO "PUBLIC"."WORK_LOG" VALUES(35, DATE '2021-04-09', 'Telco with Roger and Miroslav about  Offer Wizard Streams.', 1.0, 'Meeting (time-tracking)', 33, 35);          
+INSERT INTO "PUBLIC"."WORK_LOG" VALUES(36, DATE '2021-04-09', 'Additional fixes.', 0.5, 'Wrong backgroundcolor on news page', 33, 35);        
+INSERT INTO "PUBLIC"."WORK_LOG" VALUES(37, DATE '2021-04-11', 'Reacting on PROD incident.', 3.0, 'System maintenance (time-tracking)', 33, 35);               
+INSERT INTO "PUBLIC"."WORK_LOG" VALUES(38, DATE '2021-04-12', 'Fixing the temp issue in PROD.', 0.5, 'Wrong backgroundcolor on news page', 33, 35);           
+INSERT INTO "PUBLIC"."WORK_LOG" VALUES(39, DATE '2021-04-12', 'The label change and testing.', 0.5, 'Additional fast track form template', 33, 35);           
+INSERT INTO "PUBLIC"."WORK_LOG" VALUES(40, DATE '2021-04-12', 'Telco with Roger.', 0.5, 'Meeting (time-tracking)', 33, 35);   
+INSERT INTO "PUBLIC"."WORK_LOG" VALUES(41, DATE '2021-04-12', 'Sync meeting with Miroslav.', 1.0, 'Meeting (time-tracking)', 33, 35);         
+INSERT INTO "PUBLIC"."WORK_LOG" VALUES(42, DATE '2021-04-13', 'Worked on the issue changes.', 1.5, 'Resultpage for "Werke"', 33, 35);         
+INSERT INTO "PUBLIC"."WORK_LOG" VALUES(43, DATE '2021-04-12', 'iSystem job and sql preparation', 8.0, 'Adapt the status of Webcam Offers depending on the picture file hash', 33, 1);         
+INSERT INTO "PUBLIC"."WORK_LOG" VALUES(44, DATE '2021-04-01', 'Introduction to the project. Reading documentation.', 5.5, 'Onboarding (time-tracking)', 33, 36);              
+INSERT INTO "PUBLIC"."WORK_LOG" VALUES(45, DATE '2021-04-02', 'Introduction to the project. Reading documentation.', 8.0, 'Onboarding (time-tracking)', 33, 36);              
+INSERT INTO "PUBLIC"."WORK_LOG" VALUES(46, DATE '2021-04-05', 'Introduction to the project. Reading documentation.', 8.0, 'Onboarding (time-tracking)', 33, 36);              
+INSERT INTO "PUBLIC"."WORK_LOG" VALUES(47, DATE '2021-04-06', STRINGDECODE('* Getting familiar with picture handler and resizer services. \n* Expanded picture resize response with picture hash.'), 7.0, 'Adapt the status of Webcam Offers depending on the picture file hash', 33, 36);    
+INSERT INTO "PUBLIC"."WORK_LOG" VALUES(48, DATE '2021-04-07', 'Implemented and tested picture hash writting into db', 5.0, 'Adapt the status of Webcam Offers depending on the picture file hash', 33, 36);   
+INSERT INTO "PUBLIC"."WORK_LOG" VALUES(49, DATE '2021-04-07', 'Exploring the system code', 3.0, 'Onboarding (time-tracking)', 33, 36);        
+INSERT INTO "PUBLIC"."WORK_LOG" VALUES(50, DATE '2021-04-08', STRINGDECODE('* Getting familiar with the isystem code.\n* Updating picture entity.'), 6.0, 'Adapt the status of Webcam Offers depending on the picture file hash', 33, 36);    
+INSERT INTO "PUBLIC"."WORK_LOG" VALUES(51, DATE '2021-04-08', 'Exploring the system code', 1.5, 'Onboarding (time-tracking)', 33, 36);        
+INSERT INTO "PUBLIC"."WORK_LOG" VALUES(52, DATE '2021-04-09', 'Updated picture entity with 2 new columns', 5.0, 'Adapt the status of Webcam Offers depending on the picture file hash', 33, 36);              
+INSERT INTO "PUBLIC"."WORK_LOG" VALUES(53, DATE '2021-04-09', 'Investigating current jobs implementation', 3.0, 'Onboarding (time-tracking)', 33, 36);        
+INSERT INTO "PUBLIC"."WORK_LOG" VALUES(54, DATE '2021-04-12', 'iSystem job and sql preparation', 8.0, 'Adapt the status of Webcam Offers depending on the picture file hash', 33, 36);        
+INSERT INTO "PUBLIC"."WORK_LOG" VALUES(55, DATE '2021-04-06', 'Exploring code and fixing styles', 4.0, 'Kulturwochenende font issues', 33, 37);               
+INSERT INTO "PUBLIC"."WORK_LOG" VALUES(56, DATE '2021-04-06', 'Fixing fonts and styles and refactoring code', 4.0, 'Kulturwochenende font issues', 33, 37);   
+INSERT INTO "PUBLIC"."WORK_LOG" VALUES(57, DATE '2021-04-07', 'Adding missing popups and grouping offer ids', 4.0, 'Refactor: Make all Info Offer IDs as constants in Vue app', 33, 37);      
+INSERT INTO "PUBLIC"."WORK_LOG" VALUES(58, DATE '2021-04-08', 'Finding and fixing background issue', 2.0, 'New Resultpage "Blog" for Kulturwochenende', 33, 37);              
+INSERT INTO "PUBLIC"."WORK_LOG" VALUES(59, DATE '2021-04-08', 'Finding and fixing background issue', 2.0, 'Wrong backgroundcolor on news page', 33, 37);      
+INSERT INTO "PUBLIC"."WORK_LOG" VALUES(60, DATE '2021-04-09', 'Finding and changing style hat affects on other components', 4.0, 'Wrong backgroundcolor on news page', 33, 37);               
+INSERT INTO "PUBLIC"."WORK_LOG" VALUES(61, DATE '2021-04-12', 'Fixing 12) 13) 14)', 2.0, 'Resultpage for "Werke"', 33, 37);   
+INSERT INTO "PUBLIC"."WORK_LOG" VALUES(62, DATE '2021-04-12', 'Fixing wrong editable row for editing and adding booking, tying to fix table CSS bug for long text', 4.0, 'Implement Holiday Homes Availability (Booking) and Rates UI', 33, 37);              
+INSERT INTO "PUBLIC"."WORK_LOG" VALUES(63, DATE '2021-04-13', 'Fixing fonts on detail and teaser', 1.0, 'Kulturwochenende font issues', 33, 37);              
+ALTER TABLE "PUBLIC"."JIRA_PROJECT" ADD CONSTRAINT "PUBLIC"."UK_G3KKV8PDPA78BNXY3EVDK0EUL" UNIQUE("NAME");    
+ALTER TABLE "PUBLIC"."USER" ADD CONSTRAINT "PUBLIC"."UK_OB8KQYQQGMEFL0ACO34AKDTPE" UNIQUE("EMAIL");           
+ALTER TABLE "PUBLIC"."JIRA_USER" ADD CONSTRAINT "PUBLIC"."UK_88PUG0K733ILO2RENVIO8FGMR" UNIQUE("NAME");       
+ALTER TABLE "PUBLIC"."USER_ROLES" ADD CONSTRAINT "PUBLIC"."FK55ITPPKW3I07DO3H7QOCLQD4K" FOREIGN KEY("USER_ID") REFERENCES "PUBLIC"."USER"("ID") NOCHECK;      
+ALTER TABLE "PUBLIC"."JIRA_PROJECT" ADD CONSTRAINT "PUBLIC"."FK3SLMEJTG6Y3097I41XGPUWUW9" FOREIGN KEY("PROJECT_ID") REFERENCES "PUBLIC"."PROJECT"("ID") NOCHECK;              
+ALTER TABLE "PUBLIC"."PROJECT_USERS" ADD CONSTRAINT "PUBLIC"."FK9AT0EI37RLS7VD2M6SH92668H" FOREIGN KEY("PROJECT_ID") REFERENCES "PUBLIC"."PROJECT"("ID") NOCHECK;             
+ALTER TABLE "PUBLIC"."PROJECT_USERS" ADD CONSTRAINT "PUBLIC"."FKSWC4G4H18LBXSL9OBVO97LNBL" FOREIGN KEY("USER_ID") REFERENCES "PUBLIC"."USER"("ID") NOCHECK;   
+ALTER TABLE "PUBLIC"."WORK_LOG" ADD CONSTRAINT "PUBLIC"."FKHLTJHXEJF2FOYK78SDFN4H63C" FOREIGN KEY("PROJECT_ID") REFERENCES "PUBLIC"."PROJECT"("ID") NOCHECK;  
+ALTER TABLE "PUBLIC"."WORK_LOG" ADD CONSTRAINT "PUBLIC"."FK2L5J2UBNTSMQ2TIND0QQ1AR71" FOREIGN KEY("USER_ID") REFERENCES "PUBLIC"."USER"("ID") NOCHECK;        
+ALTER TABLE "PUBLIC"."JIRA_USER" ADD CONSTRAINT "PUBLIC"."FKEECKLICBPETK2R68XNAHMNEEC" FOREIGN KEY("USER_ID") REFERENCES "PUBLIC"."USER"("ID") NOCHECK;       
+
+
+DROP TABLE JIRA_PROJECT;
+DROP TABLE JIRA_USER;
+DROP TABLE PROJECT_USERS;
+DROP TABLE WORK_LOG;
+DROP TABLE "flyway_schema_history";
+DROP TABLE PROJECT;
+DROP TABLE USER_ROLES;
+DROP TABLE USER;

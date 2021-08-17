@@ -10,6 +10,8 @@ public interface WorkLogService {
 
   WorkLog getWorkLogById(Long id);
 
+  List<WorkLog> getWorkLogByUser(Long userId);
+
   List<WorkLog> getAllWorkLogs();
 
   WorkLog createWorkLog(WorkLog workLog);
@@ -17,6 +19,8 @@ public interface WorkLogService {
   WorkLog updateWorkLog(Long id, WorkLog workLog);
 
   void deleteWorkLog(Long id);
+
+  List<WorkLog> getWorkLogAndProjectByIdAndUserById(Long projectId,Long userId);
 
   List<WorkLog> getWorkLogsBetweenDates(LocalDate from, LocalDate to);
 

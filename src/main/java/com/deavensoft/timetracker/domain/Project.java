@@ -22,9 +22,9 @@ public class Project {
 
 	private String name;
 	private String description;
-	private Boolean isActive = true;
+	private Boolean isActive;
 
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "project_users",
 			joinColumns = { @JoinColumn(name = "project_id") },
 			inverseJoinColumns = { @JoinColumn(name = "user_id") })

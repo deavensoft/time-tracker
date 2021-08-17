@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequestMapping(ProjectEndpoint.BASE_URL)
 @RequiredArgsConstructor
-@CrossOrigin(maxAge = 3600)
+@CrossOrigin(value = "*", maxAge = 3600)
 @RestController
 public class ProjectEndpoint {
     public static final String BASE_URL = "/v1.0/projects";
@@ -37,8 +37,17 @@ public class ProjectEndpoint {
 
     @GetMapping
     public List<ProjectDto> getAllProjects() {
+        System.out.println("Testing: "+ System.getenv("PORT"));
+        System.out.println("Testing 2: "+ System.getProperty("PORT"));
+
         return projectService.getAllProjects().stream()
 		        .map(mapper::projectToProjectDto).collect(Collectors.toList());
+    }
+
+    @GetMapping("/user/{userId}")
+    public List<ProjectDto> getProjectByUser(@PathVariable Long userId) {
+        return projectService.getProjectsWithUserById(userId).stream()
+            .map(mapper::projectToProjectDto).collect(Collectors.toList());
     }
 
     @GetMapping("/search")
@@ -55,7 +64,7 @@ public class ProjectEndpoint {
         return mapper.projectToProjectDto(project);
     }
 
-    @PutMapping("/{id}/addUser/{userId}")
+    @PutMapping("/{id}/add-user/{userId}")
     public ProjectDto addUser(@PathVariable Long id, @PathVariable Long userId) {
 
         Project project = projectService.addUserOnProject(id, userId);

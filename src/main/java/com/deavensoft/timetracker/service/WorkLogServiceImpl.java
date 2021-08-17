@@ -11,19 +11,27 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.hibernate.jdbc.Work;
 
 @AllArgsConstructor
+@Transactional
 public class WorkLogServiceImpl implements WorkLogService {
 
   private final WorkLogRepository workLogRepository;
   private final ProjectRepository projectRepository;
 
+
   @Override
   public WorkLog getWorkLogById(Long id) {
     return workLogRepository.findById(id).orElseThrow(
         () -> new IllegalArgumentException("Work log with ID = " + id + " does not exist!"));
+  }
+
+  @Override
+  public List<WorkLog> getWorkLogByUser(Long userId) {
+    return workLogRepository.findWorkLogAndUserById(userId);
   }
 
   @Override
@@ -35,6 +43,7 @@ public class WorkLogServiceImpl implements WorkLogService {
   }
 
   @Override
+  @Transactional
   public WorkLog createWorkLog(WorkLog workLog) {
     if (valid(workLog)) {
       return workLogRepository.save(workLog);
@@ -43,6 +52,7 @@ public class WorkLogServiceImpl implements WorkLogService {
     }
   }
 
+  @Transactional
   private boolean valid(WorkLog workLog) {
     final User user = workLog.getUser();
     final Project project = workLog.getProject();
@@ -67,6 +77,11 @@ public class WorkLogServiceImpl implements WorkLogService {
   @Override
   public void deleteWorkLog(Long id) {
     workLogRepository.deleteById(id);
+  }
+
+  @Override
+  public List<WorkLog> getWorkLogAndProjectByIdAndUserById(Long projectId, Long userId) {
+    return workLogRepository.findWorkLogAndProjectByIdAndUserById(projectId, userId);
   }
 
   @Override

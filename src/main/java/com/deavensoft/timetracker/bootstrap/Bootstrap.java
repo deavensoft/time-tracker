@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 
-//@Component
+@Component
 public class Bootstrap implements CommandLineRunner {
 
   private final UserService userService;
@@ -36,7 +36,9 @@ public class Bootstrap implements CommandLineRunner {
 
   @Override
   public void run(String... args) throws Exception {
-
+    if (userRepository.count() > 0) {
+      return;
+    }
     Role manager = new Role();
     manager.setRole(Role.UserRole.MANAGER);
     Role employee = new Role();
@@ -45,25 +47,17 @@ public class Bootstrap implements CommandLineRunner {
     admin.setRole(Role.UserRole.ADMIN);
 
     User user = new User();
-    user.setFirstName("firstName");
-    user.setLastName("lastName");
-    user.setEmail("email@gmail.com");
-    user.setRoles(Arrays.asList(manager, employee, admin));
-
-    User user2 = new User();
-    user.setFirstName("Aleksandar");
-    user.setLastName("Ignjatovic");
-    user.setEmail("email@gmail.com");
+    user.setFirstName("admin");
+    user.setLastName("admin");
+    user.setEmail("admin@gmail.com");
     user.setRoles(Arrays.asList(manager, employee, admin));
     userRepository.save(user);
-    userRepository.save(user2);
 
     Project project = new Project();
     project.setUsers(Arrays.asList(user));
     project.setIsActive(true);
     project.setName("name");
     project.setDescription("desc");
-
 
     WorkLog workLog = new WorkLog();
     workLog.setUser(user);

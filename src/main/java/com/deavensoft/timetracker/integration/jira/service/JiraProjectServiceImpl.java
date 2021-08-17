@@ -6,11 +6,13 @@ import com.deavensoft.timetracker.repository.JiraProjectRepository;
 import com.deavensoft.timetracker.service.ProjectService;
 import lombok.AllArgsConstructor;
 
+
 @AllArgsConstructor
 public class JiraProjectServiceImpl implements JiraProjectService {
 
   private final JiraProjectRepository jiraProjectRepository;
   private final ProjectService projectService;
+
 
   @Override
   public JiraProject getJiraProjectByName(String name) {
